@@ -1052,14 +1052,15 @@ ol {
     position: relative;
     z-index: 1001;
   }
-  /* solid header on mobile – always visible */
+  /* solid header on mobile – always visible, but no side effects on other sections */
   .site-header {
-    background: var(--paper);
+    background: var(--paper) !important;
     border-bottom: 1px solid var(--rule);
-    &--scrolled {
-      background: var(--paper);
-      backdrop-filter: none;
-    }
+    backdrop-filter: none;
+  }
+  .site-header--scrolled {
+    background: var(--paper) !important;
+    backdrop-filter: none;
   }
   .site-nav--open {
     display: flex;
@@ -1079,7 +1080,201 @@ ol {
     }
   }
 
-  /* rest of your mobile styles ... */
+  /* Hero fixes */
+  .hero {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .hero__name {
+    flex-direction: column;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero__first,
+  .hero__last {
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    white-space: normal;
+    display: block;
+  }
+  .hero__ctas {
+    flex-direction: column;
+    align-items: stretch;
+    .btn {
+      white-space: normal;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+  .hero__right {
+    width: 100%;
+    min-width: 100%;
+  }
+  .hero__info-block {
+    width: 100%;
+  }
+  .hero__info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 16px;
+  }
+  .info-label {
+    white-space: nowrap;
+    font-size: 0.6rem;
+  }
+  .info-val {
+    text-align: right;
+    white-space: nowrap;
+    font-size: 0.72rem;
+  }
+
+  /* Section padding (consistent, not breaking skills/achievements) */
+  .section {
+    padding: 60px 4vw !important;
+  }
+  .section--split .split-col {
+    padding: 60px 4vw !important;
+  }
+  .section__head {
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .section__title {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+  }
+
+  /* Stats grid */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .stat-cell {
+    padding: 20px 16px;
+  }
+  .stat-val {
+    font-size: 1.5rem;
+  }
+
+  /* Skills – keep original styling */
+  .skills-row {
+    grid-template-columns: 2fr;
+    gap: 12px;
+    padding: 18px 20px;
+  }
+  .skills-cat {
+    margin-bottom: 4px;
+  }
+  .skill-pill {
+    font-size: 0.65rem;
+    padding: 5px 10px;
+  }
+
+  /* Education */
+  .edu-grid {
+    grid-template-columns: 1fr;
+  }
+  .edu-card {
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 24px;
+  }
+
+  /* Contact */
+  .contact-link {
+    grid-template-columns: 70px 1fr 20px;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+  .cl-val {
+    font-size: 0.7rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 20px 5vw;
+  }
+
+  /* Experience */
+  .exp-item {
+    padding: 32px 0;
+  }
+  .exp-item__top {
+    grid-template-columns: 30px 1fr;
+    gap: 12px;
+  }
+  .exp-role {
+    font-size: 1.1rem;
+  }
+  .exp-tag {
+    white-space: normal;
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+  .exp-desc,
+  .exp-bullets {
+    padding-left: 0;
+  }
+  .exp-bullets {
+    grid-template-columns: 1fr;
+  }
+
+  /* Projects */
+  .proj-card {
+    padding: 32px 24px;
+  }
+  .proj-title {
+    font-size: 1.4rem;
+  }
+  .proj-stack {
+    gap: 4px;
+  }
+  .proj-tag {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+
+  /* Achievements – restore original clean list */
+  .ach-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ach-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    font-size: 0.75rem;
+    border-bottom: none;
+  }
+  .ach-arrow {
+    font-size: 0.65rem;
+    color: var(--accent);
+  }
+
+  /* Interests – restore wrap chips */
+  .int-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+  .int-chip {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 6px 14px;
+    white-space: normal;
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 }
 
 @media (max-width: 480px) {
