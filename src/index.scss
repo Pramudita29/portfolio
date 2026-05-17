@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&display=swap");
 
-// ─── TOKENS ──────────────────────────────────────────────────────────────────
 :root {
   --ink: #0d0d0d;
   --paper: #f2efe8;
@@ -17,7 +16,6 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-// ─── RESET ───────────────────────────────────────────────────────────────────
 *,
 *::before,
 *::after {
@@ -52,7 +50,6 @@ ol {
   list-style: none;
 }
 
-// ─── REVEAL ANIMATION ────────────────────────────────────────────────────────
 [data-reveal] {
   opacity: 0;
   transform: translateY(40px);
@@ -66,14 +63,13 @@ ol {
   }
 }
 
-// ─── APP WRAPPER ─────────────────────────────────────────────────────────────
 .app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-// ─── HEADER / NAV ────────────────────────────────────────────────────────────
 .site-header {
   position: fixed;
   top: 0;
@@ -164,14 +160,14 @@ ol {
   }
 }
 
-// ─── HERO ────────────────────────────────────────────────────────────────────
 .hero {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0 5vw;
-  padding-top: 100px;
+  padding-top: 150px;
+  padding-bottom: 60px;
   border-bottom: 1px solid var(--rule);
   position: relative;
   overflow: hidden;
@@ -188,12 +184,8 @@ ol {
     pointer-events: none;
   }
 
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 60px;
-    align-items: flex-end;
-    padding-bottom: 80px;
+  &__container {
+    max-width: 100%;
   }
 
   &__eyebrow {
@@ -212,12 +204,13 @@ ol {
     flex-direction: column;
     line-height: 0.88;
     animation: fadeUp 1s var(--ease-out) 0.2s both;
+    margin-bottom: 28px;
   }
 
   &__first,
   &__last {
     font-family: var(--sans);
-    font-size: clamp(4rem, 8.5vw, 9.5rem);
+    font-size: clamp(3rem, 7vw, 6rem);
     font-weight: 800;
     letter-spacing: -0.045em;
     display: block;
@@ -232,9 +225,22 @@ ol {
     width: 100%;
     height: 2px;
     background: var(--ink);
-    margin: 28px 0;
+    margin: 28px 0 48px 0;
     animation: scaleIn 0.8s var(--ease-out) 0.5s both;
     transform-origin: left;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  &__left {
+    flex: 2;
+    min-width: 260px;
   }
 
   &__title {
@@ -253,6 +259,7 @@ ol {
     color: var(--muted);
     max-width: 480px;
     line-height: 1.65;
+    margin-bottom: 38px;
     animation: fadeUp 0.9s var(--ease-out) 0.65s both;
   }
 
@@ -260,16 +267,15 @@ ol {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 38px;
     animation: fadeUp 0.9s var(--ease-out) 0.8s both;
   }
 
   &__right {
-    position: relative;
+    flex: 1;
+    min-width: 260px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 0;
+    gap: 20px;
     animation: fadeUp 1s var(--ease-out) 0.4s both;
   }
 
@@ -290,14 +296,13 @@ ol {
   &__big-num {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(5rem, 10vw, 9rem);
+    font-size: clamp(4rem, 8vw, 7rem);
     line-height: 0.85;
     letter-spacing: -0.06em;
     color: transparent;
     -webkit-text-stroke: 1.5px var(--rule);
     text-align: right;
     user-select: none;
-    margin-top: 12px;
   }
 }
 
@@ -332,7 +337,6 @@ ol {
   animation: pulse 2s infinite;
 }
 
-// ─── BUTTONS ─────────────────────────────────────────────────────────────────
 .btn {
   font-family: var(--mono);
   font-size: 0.68rem;
@@ -379,7 +383,6 @@ ol {
   }
 }
 
-// ─── TICKER ──────────────────────────────────────────────────────────────────
 .ticker-wrap {
   overflow: hidden;
   border-top: 1px solid var(--rule);
@@ -409,7 +412,6 @@ ol {
   margin-left: 20px;
 }
 
-// ─── SECTIONS ────────────────────────────────────────────────────────────────
 .section {
   padding: 100px 5vw;
   border-bottom: 1px solid var(--rule);
@@ -461,7 +463,6 @@ ol {
   }
 }
 
-// ─── ABOUT ───────────────────────────────────────────────────────────────────
 .about__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -525,7 +526,6 @@ ol {
   color: var(--muted);
 }
 
-// ─── EXPERIENCE ──────────────────────────────────────────────────────────────
 .exp-list {
   display: flex;
   flex-direction: column;
@@ -646,7 +646,6 @@ ol {
   }
 }
 
-// ─── PROJECTS ────────────────────────────────────────────────────────────────
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -790,7 +789,6 @@ ol {
   }
 }
 
-// ─── SKILLS ──────────────────────────────────────────────────────────────────
 .skills-table {
   border: 1px solid var(--rule);
 }
@@ -842,7 +840,6 @@ ol {
   }
 }
 
-// ─── EDUCATION ───────────────────────────────────────────────────────────────
 .edu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -896,7 +893,6 @@ ol {
   }
 }
 
-// ─── ACHIEVEMENTS / INTERESTS ─────────────────────────────────────────────────
 .ach-list {
   display: flex;
   flex-direction: column;
@@ -955,7 +951,6 @@ ol {
   }
 }
 
-// ─── CONTACT ─────────────────────────────────────────────────────────────────
 .contact__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1042,7 +1037,6 @@ ol {
   text-align: right;
 }
 
-// ─── FOOTER ──────────────────────────────────────────────────────────────────
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -1072,7 +1066,6 @@ ol {
   }
 }
 
-// ─── KEYFRAMES ───────────────────────────────────────────────────────────────
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -1114,17 +1107,7 @@ ol {
   }
 }
 
-// ─── RESPONSIVE BREAKPOINTS ──────────────────────────────────────────────────
-
-// Tablet landscape and below (≤ 1100px)
 @media (max-width: 1100px) {
-  .hero__grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .hero__right {
-    display: none;
-  }
   .section {
     padding: 80px 5vw;
   }
@@ -1137,7 +1120,6 @@ ol {
   }
 }
 
-// Tablet portrait (≤ 900px)
 @media (max-width: 900px) {
   .about__grid {
     grid-template-columns: 1fr;
@@ -1171,9 +1153,12 @@ ol {
     text-align: center;
     padding: 12px 18px;
   }
+  .hero__bottom {
+    flex-direction: column;
+    gap: 40px;
+  }
 }
 
-// Mobile (≤ 640px)
 @media (max-width: 640px) {
   .site-nav {
     display: none;
@@ -1199,7 +1184,7 @@ ol {
     }
   }
   .hero {
-    padding-top: 80px;
+    padding-top: 60px;
   }
   .hero__name {
     font-size: clamp(2.5rem, 12vw, 4rem);
@@ -1298,7 +1283,6 @@ ol {
   }
 }
 
-// Small mobile (≤ 480px)
 @media (max-width: 480px) {
   .hero__ctas .btn {
     font-size: 0.6rem;

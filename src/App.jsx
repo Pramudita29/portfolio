@@ -5,7 +5,6 @@ import "./index.scss";
 // ─── DATA ──────────────────────────────────────────────────────────────────
 const NAV_ITEMS = ["About", "Experience", "Projects", "Skills", "Contact"];
 
-// Removed GPA and First Class Honours stats to reduce bragging
 const STATS = [
   { value: "8mo", label: "Startup Dev" },
   { value: "4+", label: "Projects" },
@@ -169,7 +168,6 @@ const EDUCATION = [
   },
 ];
 
-// Removed grade-based achievements, kept professional accomplishments
 const ACHIEVEMENTS = [
   "IoA Student Member",
   "8 Months Startup Experience",
@@ -204,7 +202,6 @@ function useReveal() {
 }
 
 // ─── TICKER ──────────────────────────────────────────────────────────────
-// Removed "First Class Honours" from ticker
 const TICKER_ITEMS = [
   "Full Stack Developer",
   "React · Next.js · Node.js",
@@ -314,14 +311,12 @@ export default function App() {
 
   useReveal();
 
-  // Scroll state
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active section tracker
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
     const observer = new IntersectionObserver(
@@ -380,63 +375,64 @@ export default function App() {
 
       {/* ── HERO ── */}
       <section className="hero" id="hero" ref={heroRef}>
-        <div className="hero__grid">
-          <div className="hero__left">
-            <p className="hero__eyebrow">Portfolio · 2026</p>
-            <h1 className="hero__name">
-              <span className="hero__first">PRAMUDITA</span>
-              <span className="hero__last">BHATTARAI</span>
-            </h1>
-            <div className="hero__rule" />
-            <p className="hero__title">FULL STACK DEVELOPER</p>
-            <p className="hero__tagline">
-              I build full stack web applications that solve real-world problems
-              from idea to deployment.
-            </p>
-            <div className="hero__ctas">
-              <a href="#projects" className="btn btn--primary">
-                VIEW PROJECTS
-              </a>
-              <a href="#contact" className="btn btn--outline">
-                CONTACT ME
-              </a>
-              <a
-                href="https://github.com/Pramudita29"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn--ghost"
-              >
-                GITHUB ↗
-              </a>
-            </div>
-          </div>
-          <div className="hero__right">
-            <div className="hero__info-block">
-              <div className="hero__info-row">
-                <span className="info-label">LOCATION</span>
-                <span className="info-val">Kathmandu, Nepal</span>
-              </div>
-              <div className="hero__info-row">
-                <span className="info-label">DEGREE</span>
-                <span className="info-val">BSc (Hons) Computing</span>
-              </div>
-              <div className="hero__info-row">
-                <span className="info-label">UNIVERSITY</span>
-                <span className="info-val">Coventry · 2025</span>
-              </div>
-              {/* Removed the Honours row to reduce bragging */}
-              <div className="hero__info-row">
-                <span className="info-label">EXPERIENCE</span>
-                <span className="info-val">8 mo Startup</span>
-              </div>
-              <div className="hero__info-row">
-                <span className="info-label">STATUS</span>
-                <span className="info-val">
-                  <span className="status-dot" /> Open to Work
-                </span>
+        <div className="hero__container">
+          <p className="hero__eyebrow">Portfolio · 2026</p>
+          <h1 className="hero__name">
+            <span className="hero__first">PRAMUDITA</span>
+            <span className="hero__last">BHATTARAI</span>
+          </h1>
+          <div className="hero__rule" />
+          <div className="hero__bottom">
+            <div className="hero__left">
+              <p className="hero__title">FULL STACK DEVELOPER</p>
+              <p className="hero__tagline">
+                I build full stack web applications that solve real-world
+                problems from idea to deployment.
+              </p>
+              <div className="hero__ctas">
+                <a href="#projects" className="btn btn--primary">
+                  VIEW PROJECTS
+                </a>
+                <a href="#contact" className="btn btn--outline">
+                  CONTACT ME
+                </a>
+                <a
+                  href="https://github.com/Pramudita29"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn--ghost"
+                >
+                  GITHUB ↗
+                </a>
               </div>
             </div>
-            <div className="hero__big-num">26</div>
+            <div className="hero__right">
+              <div className="hero__info-block">
+                <div className="hero__info-row">
+                  <span className="info-label">LOCATION</span>
+                  <span className="info-val">Kathmandu, Nepal</span>
+                </div>
+                <div className="hero__info-row">
+                  <span className="info-label">DEGREE</span>
+                  <span className="info-val">BSc (Hons) Computing</span>
+                </div>
+                <div className="hero__info-row">
+                  <span className="info-label">UNIVERSITY</span>
+                  <span className="info-val">Coventry · 2025</span>
+                </div>
+                <div className="hero__info-row">
+                  <span className="info-label">EXPERIENCE</span>
+                  <span className="info-val">8 mo Startup</span>
+                </div>
+                <div className="hero__info-row">
+                  <span className="info-label">STATUS</span>
+                  <span className="info-val">
+                    <span className="status-dot" /> Open to Work
+                  </span>
+                </div>
+              </div>
+              <div className="hero__big-num">26</div>
+            </div>
           </div>
         </div>
         <Ticker />
