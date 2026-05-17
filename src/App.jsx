@@ -305,24 +305,37 @@ function ProjectCard({ project, index }) {
 export default function App() {
   const [copyMsg, setCopyMsg] = useState("");
   const [navOpen, setNavOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("about");
+  const [scrolled, setScrolled] = useState(() => typeof window !== "undefined" && window.scrollY > 60);
+  const [activeSection, setActiveSection] = useState("hero");
   const heroRef = useRef(null);
 
   useReveal();
 
+  // Improved scroll listener with requestAnimationFrame
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Active section tracker
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setActiveSection(e.target.id);
+          if (e.isIntersecting) {
+            setActiveSection(e.target.id);
+          }
         });
       },
       { rootMargin: "-40% 0px -40% 0px" },
