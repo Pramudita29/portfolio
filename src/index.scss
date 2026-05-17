@@ -416,7 +416,6 @@ ol {
     font-size: clamp(1.5rem, 4vw, 3.2rem);
     letter-spacing: -0.03em;
     line-height: 1;
-    word-break: keep-all;
   }
 }
 
@@ -1080,7 +1079,6 @@ ol {
   .hero__last {
     font-size: clamp(2.2rem, 10vw, 3.2rem);
     white-space: normal;
-    word-break: keep-all;
     display: block;
   }
   .hero__ctas {
@@ -1130,8 +1128,6 @@ ol {
   }
   .section__title {
     font-size: clamp(1.2rem, 5vw, 1.6rem);
-    word-break: break-word;
-    white-space: normal;
   }
 
   .stats-grid {
@@ -1191,7 +1187,6 @@ ol {
   }
   .exp-tag {
     white-space: normal;
-    word-break: break-word;
     font-size: 0.55rem;
     padding: 3px 8px;
   }
@@ -1240,7 +1235,6 @@ ol {
     font-size: 0.65rem;
     padding: 6px 14px;
     white-space: normal;
-    word-break: keep-all;
     background: transparent;
     border: 1.5px solid var(--ink);
     text-transform: uppercase;
@@ -1282,7 +1276,7 @@ ol {
     }
   }
   .section__title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
   .exp-bullets li {
     font-size: 0.65rem;
