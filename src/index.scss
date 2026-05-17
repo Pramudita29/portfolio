@@ -7,7 +7,7 @@
   --paper2: #e8e4dc;
   --muted: #6b6660;
   --rule: #c8c2b8;
-  --accent: #b8f400; // electric lime
+  --accent: #b8f400;
   --accent-dark: #8ab800;
   --red: #e63022;
   --mono: "IBM Plex Mono", monospace;
@@ -176,7 +176,6 @@ ol {
   position: relative;
   overflow: hidden;
 
-  // Subtle grid overlay
   &::before {
     content: "";
     position: absolute;
@@ -218,7 +217,7 @@ ol {
   &__first,
   &__last {
     font-family: var(--sans);
-    font-size: clamp(4.2rem, 8.5vw, 9.5rem);
+    font-size: clamp(4rem, 8.5vw, 9.5rem);
     font-weight: 800;
     letter-spacing: -0.045em;
     display: block;
@@ -250,7 +249,7 @@ ol {
   &__tagline {
     font-family: var(--serif);
     font-style: italic;
-    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-size: clamp(0.9rem, 1.6vw, 1.25rem);
     color: var(--muted);
     max-width: 480px;
     line-height: 1.65;
@@ -265,7 +264,6 @@ ol {
     animation: fadeUp 0.9s var(--ease-out) 0.8s both;
   }
 
-  // Right column
   &__right {
     position: relative;
     display: flex;
@@ -292,7 +290,7 @@ ol {
   &__big-num {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(6rem, 10vw, 9rem);
+    font-size: clamp(5rem, 10vw, 9rem);
     line-height: 0.85;
     letter-spacing: -0.06em;
     color: transparent;
@@ -347,6 +345,7 @@ ol {
   gap: 8px;
   transition: all 0.25s var(--ease-out);
   white-space: nowrap;
+  cursor: pointer;
 
   &--primary {
     background: var(--ink);
@@ -456,7 +455,7 @@ ol {
   &__title {
     font-family: var(--sans);
     font-weight: 800;
-    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-size: clamp(1.5rem, 4vw, 3.2rem);
     letter-spacing: -0.03em;
     line-height: 1;
   }
@@ -478,7 +477,7 @@ ol {
   p {
     font-family: var(--serif);
     font-style: italic;
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.8;
     color: var(--muted);
   }
@@ -486,7 +485,7 @@ ol {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   border: 1px solid var(--rule);
 }
 
@@ -581,7 +580,7 @@ ol {
 .exp-role {
   font-family: var(--sans);
   font-weight: 700;
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 1.5rem);
   letter-spacing: -0.025em;
 }
 
@@ -626,7 +625,7 @@ ol {
 
 .exp-bullets {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 6px 32px;
   padding-left: 80px;
 
@@ -735,7 +734,7 @@ ol {
 .proj-title {
   font-family: var(--sans);
   font-weight: 800;
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.5vw, 2.2rem);
   letter-spacing: -0.04em;
   line-height: 1;
   margin-bottom: 14px;
@@ -967,7 +966,7 @@ ol {
 .contact__heading {
   font-family: var(--sans);
   font-weight: 800;
-  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-size: clamp(2rem, 5vw, 5rem);
   letter-spacing: -0.04em;
   line-height: 0.9;
   margin-bottom: 24px;
@@ -1034,6 +1033,7 @@ ol {
   font-family: var(--mono);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
+  word-break: break-word;
 }
 
 .cl-arrow {
@@ -1114,14 +1114,31 @@ ol {
   }
 }
 
-// ─── RESPONSIVE ──────────────────────────────────────────────────────────────
-@media (max-width: 900px) {
+// ─── RESPONSIVE BREAKPOINTS ──────────────────────────────────────────────────
+
+// Tablet landscape and below (≤ 1100px)
+@media (max-width: 1100px) {
   .hero__grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
   .hero__right {
     display: none;
   }
+  .section {
+    padding: 80px 5vw;
+  }
+  .section--split {
+    grid-template-columns: 1fr;
+  }
+  .split-col:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+// Tablet portrait (≤ 900px)
+@media (max-width: 900px) {
   .about__grid {
     grid-template-columns: 1fr;
     gap: 48px;
@@ -1131,13 +1148,6 @@ ol {
   }
   .proj-card {
     border-right: none !important;
-  }
-  .section--split {
-    grid-template-columns: 1fr;
-  }
-  .split-col:first-child {
-    border-right: none;
-    border-bottom: 1px solid var(--rule);
   }
   .contact__grid {
     grid-template-columns: 1fr;
@@ -1156,8 +1166,14 @@ ol {
   .exp-item__right {
     display: none;
   }
+  .hero__ctas .btn {
+    white-space: normal;
+    text-align: center;
+    padding: 12px 18px;
+  }
 }
 
+// Mobile (≤ 640px)
 @media (max-width: 640px) {
   .site-nav {
     display: none;
@@ -1182,18 +1198,47 @@ ol {
       letter-spacing: 0.2em;
     }
   }
+  .hero {
+    padding-top: 80px;
+  }
   .hero__name {
-    font-size: clamp(3rem, 14vw, 5rem);
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+  .hero__first,
+  .hero__last {
+    font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+  .hero__ctas {
+    flex-direction: column;
+    align-items: stretch;
+    .btn {
+      text-align: center;
+      justify-content: center;
+    }
   }
   .section {
-    padding: 70px 6vw;
+    padding: 60px 6vw;
+  }
+  .section__head {
+    gap: 12px;
+    margin-bottom: 40px;
   }
   .stats-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .stat-cell {
+    padding: 20px 16px;
+  }
+  .stat-val {
+    font-size: 1.5rem;
+  }
   .skills-row {
     grid-template-columns: 1fr;
     gap: 12px;
+    padding: 18px 20px;
+  }
+  .skills-cat {
+    margin-bottom: 4px;
   }
   .edu-grid {
     grid-template-columns: 1fr;
@@ -1201,5 +1246,94 @@ ol {
   .edu-card {
     border-right: none;
     border-bottom: 1px solid var(--rule);
+    padding: 32px 24px;
+  }
+  .contact-link {
+    grid-template-columns: 70px 1fr 20px;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+  .cl-val {
+    font-size: 0.7rem;
+  }
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 20px 5vw;
+  }
+  .exp-item {
+    padding: 32px 0;
+  }
+  .exp-item__top {
+    grid-template-columns: 30px 1fr;
+    gap: 12px;
+  }
+  .exp-role {
+    font-size: 1.1rem;
+  }
+  .exp-tag {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+  .proj-card {
+    padding: 32px 24px;
+  }
+  .proj-title {
+    font-size: 1.4rem;
+  }
+  .proj-stack {
+    gap: 4px;
+  }
+  .proj-tag {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+  .int-chip {
+    font-size: 0.6rem;
+    padding: 6px 12px;
+  }
+  .ach-item {
+    font-size: 0.7rem;
+  }
+}
+
+// Small mobile (≤ 480px)
+@media (max-width: 480px) {
+  .hero__ctas .btn {
+    font-size: 0.6rem;
+    padding: 10px 16px;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-cell {
+    border-right: none !important;
+    &:nth-last-child(-n + 2) {
+      border-bottom: 1px solid var(--rule);
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  .contact-link {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    text-align: center;
+    .cl-label {
+      text-align: center;
+    }
+    .cl-val {
+      text-align: center;
+    }
+    .cl-arrow {
+      display: none;
+    }
+  }
+  .section__title {
+    font-size: 1.8rem;
+  }
+  .exp-bullets li {
+    font-size: 0.65rem;
   }
 }
