@@ -989,13 +989,7 @@ ol {
   }
 }
 
-/* --------------------------------------------- */
-/* RESPONSIVE (mobile fixes)                     */
-/* --------------------------------------------- */
-
-/* --------------------------------------------- */
-/* RESPONSIVE (mobile fixes)                     */
-/* --------------------------------------------- */
+/* RESPONSIVE BREAKPOINTS */
 
 @media (max-width: 1100px) {
   .section {
@@ -1073,7 +1067,6 @@ ol {
     }
   }
 
-  /* Hero fixes (mobile) */
   .hero {
     padding-top: 60px;
     padding-bottom: 60px;
@@ -1100,7 +1093,6 @@ ol {
     }
   }
 
-  /* Info block – expand horizontally (side by side) */
   .hero__right {
     width: 100%;
     min-width: 100%;
@@ -1126,24 +1118,22 @@ ol {
     font-size: 0.72rem;
   }
 
-  /* Sections: consistent padding on mobile (4vw) */
   .section {
-    padding: 60px 4vw !important; /* was 6vw → now matches split-col */
+    padding: 60px 4vw !important;
   }
   .section--split .split-col {
-    padding: 60px 4vw !important; /* same as regular sections */
+    padding: 60px 4vw !important;
   }
   .section__head {
     gap: 12px;
     margin-bottom: 40px;
   }
   .section__title {
-    word-break: break-word; /* allow breaking */
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    word-break: break-word;
     white-space: normal;
-    font-size: clamp(1.2rem, 5vw, 1.5rem); /* reduce on small screens */
   }
 
-  /* Stats grid */
   .stats-grid {
     grid-template-columns: 1fr 1fr;
     gap: 0;
@@ -1155,7 +1145,6 @@ ol {
     font-size: 1.5rem;
   }
 
-  /* Skills */
   .skills-row {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1165,7 +1154,6 @@ ol {
     margin-bottom: 4px;
   }
 
-  /* Education */
   .edu-grid {
     grid-template-columns: 1fr;
   }
@@ -1175,7 +1163,6 @@ ol {
     padding: 32px 24px;
   }
 
-  /* Contact */
   .contact-link {
     grid-template-columns: 70px 1fr 20px;
     gap: 12px;
@@ -1185,7 +1172,6 @@ ol {
     font-size: 0.7rem;
   }
 
-  /* Footer */
   .site-footer {
     flex-direction: column;
     text-align: center;
@@ -1193,7 +1179,6 @@ ol {
     padding: 20px 5vw;
   }
 
-  /* Experience */
   .exp-item {
     padding: 32px 0;
   }
@@ -1211,7 +1196,6 @@ ol {
     padding: 3px 8px;
   }
 
-  /* Projects */
   .proj-card {
     padding: 32px 24px;
   }
@@ -1226,7 +1210,6 @@ ol {
     padding: 3px 8px;
   }
 
-  /* Achievements (clean bullet list) */
   .ach-list {
     display: flex;
     flex-direction: column;
@@ -1245,7 +1228,6 @@ ol {
     color: var(--accent);
   }
 
-  /* Interests (wrap as chips) */
   .int-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1291,9 +1273,7 @@ ol {
     grid-template-columns: 1fr;
     gap: 6px;
     text-align: center;
-    .cl-label {
-      text-align: center;
-    }
+    .cl-label,
     .cl-val {
       text-align: center;
     }
@@ -1302,7 +1282,7 @@ ol {
     }
   }
   .section__title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
   .exp-bullets li {
     font-size: 0.65rem;
