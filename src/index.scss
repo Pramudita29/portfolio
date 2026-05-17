@@ -1138,7 +1138,9 @@ ol {
     margin-bottom: 40px;
   }
   .section__title {
-    word-break: keep-all;
+    word-break: break-word; /* allow breaking */
+    white-space: normal;
+    font-size: clamp(1.2rem, 5vw, 1.5rem); /* reduce on small screens */
   }
 
   /* Stats grid */
