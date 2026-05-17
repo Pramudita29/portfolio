@@ -157,7 +157,7 @@ ol {
   flex-direction: column;
   justify-content: space-between;
   padding: 0 5vw;
-  padding-top: 60px;
+  padding-top: 150px;
   padding-bottom: 60px;
   border-bottom: 1px solid var(--rule);
   position: relative;
@@ -416,6 +416,7 @@ ol {
     font-size: clamp(1.5rem, 4vw, 3.2rem);
     letter-spacing: -0.03em;
     line-height: 1;
+    word-break: keep-all;
   }
 }
 
@@ -988,6 +989,14 @@ ol {
   }
 }
 
+/* --------------------------------------------- */
+/* RESPONSIVE (mobile fixes)                     */
+/* --------------------------------------------- */
+
+/* --------------------------------------------- */
+/* RESPONSIVE (mobile fixes)                     */
+/* --------------------------------------------- */
+
 @media (max-width: 1100px) {
   .section {
     padding: 80px 5vw;
@@ -1063,8 +1072,11 @@ ol {
       letter-spacing: 0.2em;
     }
   }
+
+  /* Hero fixes (mobile) */
   .hero {
     padding-top: 60px;
+    padding-bottom: 60px;
   }
   .hero__name {
     flex-direction: column;
@@ -1073,27 +1085,66 @@ ol {
   }
   .hero__first,
   .hero__last {
-    font-size: clamp(2rem, 10vw, 3.2rem);
-    word-break: break-word;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
     white-space: normal;
+    word-break: keep-all;
+    display: block;
   }
   .hero__ctas {
     flex-direction: column;
     align-items: stretch;
     .btn {
+      white-space: normal;
       text-align: center;
       justify-content: center;
     }
   }
+
+  /* Info block – expand horizontally (side by side) */
+  .hero__right {
+    width: 100%;
+    min-width: 100%;
+  }
+  .hero__info-block {
+    width: 100%;
+  }
+  .hero__info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 16px;
+  }
+  .info-label {
+    white-space: nowrap;
+    font-size: 0.6rem;
+  }
+  .info-val {
+    text-align: right;
+    white-space: nowrap;
+    font-size: 0.72rem;
+  }
+
+  /* Sections: consistent padding on mobile (4vw) */
   .section {
-    padding: 60px 6vw;
+    padding: 60px 4vw !important; /* was 6vw → now matches split-col */
+  }
+  .section--split .split-col {
+    padding: 60px 4vw !important; /* same as regular sections */
   }
   .section__head {
     gap: 12px;
     margin-bottom: 40px;
   }
+  .section__title {
+    word-break: keep-all;
+  }
+
+  /* Stats grid */
   .stats-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 0;
   }
   .stat-cell {
     padding: 20px 16px;
@@ -1101,6 +1152,8 @@ ol {
   .stat-val {
     font-size: 1.5rem;
   }
+
+  /* Skills */
   .skills-row {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1109,6 +1162,8 @@ ol {
   .skills-cat {
     margin-bottom: 4px;
   }
+
+  /* Education */
   .edu-grid {
     grid-template-columns: 1fr;
   }
@@ -1117,6 +1172,8 @@ ol {
     border-bottom: 1px solid var(--rule);
     padding: 32px 24px;
   }
+
+  /* Contact */
   .contact-link {
     grid-template-columns: 70px 1fr 20px;
     gap: 12px;
@@ -1125,12 +1182,16 @@ ol {
   .cl-val {
     font-size: 0.7rem;
   }
+
+  /* Footer */
   .site-footer {
     flex-direction: column;
     text-align: center;
     gap: 12px;
     padding: 20px 5vw;
   }
+
+  /* Experience */
   .exp-item {
     padding: 32px 0;
   }
@@ -1142,11 +1203,13 @@ ol {
     font-size: 1.1rem;
   }
   .exp-tag {
-    font-size: 0.55rem;
-    padding: 3px 8px;
     white-space: normal;
     word-break: break-word;
+    font-size: 0.55rem;
+    padding: 3px 8px;
   }
+
+  /* Projects */
   .proj-card {
     padding: 32px 24px;
   }
@@ -1160,19 +1223,52 @@ ol {
     font-size: 0.55rem;
     padding: 3px 8px;
   }
-  .int-chip {
-    font-size: 0.6rem;
-    padding: 6px 12px;
-    white-space: normal;
-    word-break: break-word;
+
+  /* Achievements (clean bullet list) */
+  .ach-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .ach-item {
-    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    font-size: 0.75rem;
+    border-bottom: none;
+  }
+  .ach-arrow {
+    font-size: 0.65rem;
+    color: var(--accent);
+  }
+
+  /* Interests (wrap as chips) */
+  .int-grid {
+    display: flex;
     flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+  .int-chip {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 6px 14px;
+    white-space: normal;
+    word-break: keep-all;
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 }
 
 @media (max-width: 480px) {
+  .hero__first,
+  .hero__last {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
   .hero__ctas .btn {
     font-size: 0.6rem;
     padding: 10px 16px;
@@ -1204,9 +1300,13 @@ ol {
     }
   }
   .section__title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   .exp-bullets li {
     font-size: 0.65rem;
+  }
+  .int-chip {
+    font-size: 0.6rem;
+    padding: 6px 12px;
   }
 }
