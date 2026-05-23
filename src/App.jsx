@@ -20,64 +20,62 @@ const EXPERIENCE = [
     location: "Kathmandu, Nepal",
     period: "Aug 2025 – Apr 2026",
     tag: "Intern → Full Stack",
-    desc: "Worked in a startup team of 3, handling full stack development (excl. DevOps). Progressed from intern to full stack developer within the same company.",
+
+    desc: "I joined PortMi as an intern in a startup team of 3 and gradually grew into a Full Stack Developer role. Working inside a small startup meant taking ownership across the whole product lifecycle. I worked on frontend systems, backend logic, APIs, databases, and production deployments. As responsibilities increased, I delivered multiple production websites and real-world systems.",
+
     bullets: [
       "Built frontend and backend features for production systems",
       "Developed REST APIs and authentication systems",
       "Designed and implemented database structures",
-      "Built responsive UI components",
-      "Participated in deployment and production releases",
-      "Improved user engagement and product usability",
+      "Built reusable UI systems and responsive layouts",
+      "Participated in production deployments and releases",
+      "Worked closely in a fast-moving startup environment",
+    ],
+
+    works: [
+      {
+        title: "Kumari Trust",
+        link: "kumaritrust.com",
+        stack: "React · Tailwind CSS",
+        story:
+          "One of the first production projects I worked on. Built complete frontend interfaces, reusable components, layouts, and responsiveness.",
+      },
+
+      {
+        title: "StratBridge Partners",
+        link: "stratbpartners.com",
+        stack: "React · Tailwind CSS",
+        story:
+          "Built a corporate production website focusing on reusable frontend architecture and backend integrations.",
+      },
+
+      {
+        title: "Modaash · Manpower Management System",
+        link: "modaash.com",
+        stack: "Next.js · Node.js · MongoDB",
+        story:
+          "Later worked on workforce and manpower management systems where responsibilities expanded into broader full stack development and business workflows.",
+      },
     ],
   },
+
   {
     num: "02",
-    role: "Frontend Developer",
-    company: "StratBridge Partners",
-    link: "stratbpartners.com",
-    period: "",
-    tag: "Production Site",
-    desc: "",
-    bullets: [
-      "Built responsive corporate website using React and Tailwind CSS",
-      "Developed reusable UI components",
-      "Integrated frontend with backend services",
-      "Deployed website using Cloudflare",
-      "Improved responsiveness and UX quality",
-    ],
-  },
-  {
-    num: "03",
-    role: "Frontend Developer",
-    company: "Kumari Trust",
-    link: "kumaritrust.com",
-    period: "",
-    tag: "Production Site",
-    desc: "",
-    bullets: [
-      "Developed full frontend interface using React and Tailwind CSS",
-      "Built reusable components and layout systems",
-      "Improved responsiveness and accessibility",
-      "Managed deployment using Cloudflare",
-      "Enhanced user engagement through UI improvements",
-    ],
-  },
-  {
-    num: "04",
     role: "Full Stack Developer",
     company: "SmartWokil",
     period: "Ongoing",
     tag: "Solo · Legal Tech",
-    desc: "Built an end-to-end legal tech platform independently from system architecture to production features.",
+
+    desc: "Built an end-to-end legal technology platform independently from architecture planning to implementation.",
+
     bullets: [
       "Built frontend using React + TypeScript",
       "Built backend using FastAPI + PostgreSQL",
-      "Designed full system architecture independently",
-      "Case management system & document upload with tagging",
-      "Role-based dashboards (lawyer, client, clerk)",
-      "Google OAuth auth & notification system for hearings",
-      "Automated 35-day legal deadline tracking",
-      "Messaging system & client portal for case tracking",
+      "Designed system architecture independently",
+      "Built role-based dashboards",
+      "Implemented Google OAuth",
+      "Created deadline tracking and notifications",
+      "Built messaging and client portal system",
     ],
   },
 ];
@@ -305,7 +303,9 @@ function ProjectCard({ project, index }) {
 export default function App() {
   const [copyMsg, setCopyMsg] = useState("");
   const [navOpen, setNavOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(() => typeof window !== "undefined" && window.scrollY > 60);
+  const [scrolled, setScrolled] = useState(
+    () => typeof window !== "undefined" && window.scrollY > 60,
+  );
   const [activeSection, setActiveSection] = useState("hero");
   const heroRef = useRef(null);
 
@@ -510,36 +510,61 @@ export default function App() {
             >
               <div className="exp-item__top">
                 <span className="exp-item__num">{exp.num}</span>
+
                 <div className="exp-item__meta">
                   <h3 className="exp-role">{exp.role}</h3>
+
                   <div className="exp-company">
-                    {exp.link ? (
-                      <a
-                        href={`https://${exp.link}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {exp.company} ↗
-                      </a>
-                    ) : (
-                      exp.company
-                    )}
+                    {exp.company}
+
                     {exp.location && <span> · {exp.location}</span>}
                   </div>
                 </div>
+
                 <div className="exp-item__right">
                   {exp.period && (
                     <span className="exp-period">{exp.period}</span>
                   )}
+
                   <span className="exp-tag">{exp.tag}</span>
                 </div>
               </div>
-              {exp.desc && <p className="exp-desc">{exp.desc}</p>}
+
+              <p className="exp-desc">{exp.desc}</p>
+
               <ul className="exp-bullets">
                 {exp.bullets.map((b, j) => (
                   <li key={j}>{b}</li>
                 ))}
               </ul>
+
+              {exp.works && (
+                <>
+                  <h4 className="exp-work-heading">PROJECTS DELIVERED</h4>
+
+                  <div className="exp-works">
+                    {exp.works.map((work, index) => (
+                      <a
+                        key={index}
+                        href={`https://${work.link}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="exp-work-card"
+                      >
+                        <div className="exp-work-top">
+                          <span className="exp-work-title">{work.title}</span>
+
+                          <span>↗</span>
+                        </div>
+
+                        <span className="exp-work-stack">{work.stack}</span>
+
+                        <p className="exp-work-story">{work.story}</p>
+                      </a>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

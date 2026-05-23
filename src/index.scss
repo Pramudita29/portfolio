@@ -1321,3 +1321,94 @@ ol {
     padding: 6px 12px;
   }
 }
+/* ─────────────────────────────────────────────
+   EXPERIENCE → WORKS (missing styles)
+──────────────────────────────────────────── */
+
+.exp-work-heading {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 28px 0 16px 80px;
+}
+
+.exp-works {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding-left: 80px;
+}
+
+.exp-work-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  transition: all 0.3s var(--ease-out);
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    background: var(--paper2);
+    transform: translateY(-2px);
+    border-color: var(--ink);
+  }
+}
+
+.exp-work-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exp-work-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+}
+
+.exp-work-stack {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.exp-work-story {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ─────────────────────────────────────────────
+   CONTACT SECTION (optional safety styling)
+──────────────────────────────────────────── */
+
+.contact-section {
+  position: relative;
+}
+
+/* ─────────────────────────────────────────────
+   SMALL FIX: hero big number alignment
+──────────────────────────────────────────── */
+
+.hero__big-num {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(5rem, 10vw, 9rem);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--rule);
+  text-align: right;
+  margin-top: 20px;
+  user-select: none;
+}
