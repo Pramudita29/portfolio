@@ -6,10 +6,10 @@ import "./index.scss";
 const NAV_ITEMS = ["About", "Experience", "Projects", "Skills", "Contact"];
 
 const STATS = [
-  { value: "8 mo", label: "Startup Engineering Experience" },
-  { value: "4+", label: "Production Systems Delivered" },
-  { value: "10+", label: "Technologies Used in Real Projects" },
-  { value: "First Class", label: "Honours (Coventry University)" },
+  { value: "3", label: "Products shipped to production" },
+  { value: "8mo", label: "Startup engineering at PortMi" },
+  { value: "10+", label: "Technologies used across projects" },
+  { value: "71.7%", label: "First Class Honours, Coventry" },
 ];
 
 const EXPERIENCE = [
@@ -19,54 +19,53 @@ const EXPERIENCE = [
     company: "PortMi",
     location: "Kathmandu, Nepal",
     period: "Aug 2025 – Apr 2026",
-    tag: "Startup · Full Stack Ownership",
-    desc: "Worked as a full stack engineer in a small startup environment, owning end-to-end feature delivery across frontend, backend, APIs, and production systems used by real users.",
+    tag: "Startup · End-to-End Ownership",
+    desc: "Joined as a junior and grew into full ownership of features across the stack — frontend, backend, APIs, auth, and production systems. Shipped three live products used by real organisations.",
     bullets: [
-      "Designed and implemented multi-tenant RBAC system with isolated dashboards and role-based access control",
-      "Built real-time chat and notification system using WebSockets for live system updates",
-      "Developed REST APIs with JWT authentication, middleware layering, and structured validation",
-      "Built reusable frontend component system to improve development speed and consistency across features",
-      "Deployed and maintained production features across live systems with iterative releases",
-      "Worked in fast-paced agile environment with continuous delivery cycles and tight deadlines",
+      "Built Modaash MMS — multi-tenant workforce SaaS with real-time WebSocket messaging, role-based dashboards, and automated workflows; live in production",
+      "Designed RBAC system with isolated tenant data, granular role permissions, and admin override controls",
+      "Built real-time notification and chat layer over WebSockets for live system updates",
+      "Developed REST APIs with JWT auth, middleware layering, and structured request validation",
+      "Delivered Kumari Trust and StratBridge Partners frontends from Figma to production",
+      "Worked in weekly agile release cycles with continuous delivery across live systems",
     ],
     works: [
+      {
+        title: "Modaash MMS",
+        link: "modaash.com",
+        stack: "Next.js · Node.js · MongoDB · WebSockets",
+        story:
+          "Multi-tenant workforce management SaaS with real-time messaging, automated workflows, and isolated role-based dashboards. Live in production.",
+      },
       {
         title: "Kumari Trust",
         link: "kumaritrust.com",
         stack: "React · Tailwind CSS",
         story:
-          "Built production-ready frontend system with reusable UI architecture and fully responsive design system.",
+          "Production-grade institutional website with a fully responsive, accessible design system and reusable component library. Delivered in under 3 weeks.",
       },
       {
         title: "StratBridge Partners",
         link: "stratbpartners.com",
         stack: "React · Tailwind CSS",
         story:
-          "Developed scalable corporate website with modular frontend structure and structured component reuse.",
-      },
-      {
-        title: "Modaash MMS",
-        link: "modaash.com",
-        stack: "Next.js · Node.js · MongoDB",
-        story:
-          "Built multi-tenant workforce management platform with real-time messaging, dashboards, and workflow automation.",
+          "Corporate website with modular component structure and reusable content system.",
       },
     ],
   },
   {
     num: "02",
-    role: "Full Stack Developer",
+    role: "Solo Engineer",
     company: "SmartWokil",
-    period: "Apr 2026 – Present",
-    tag: "Solo Engineer · Legal Tech Platform",
-    desc: "Independently designed and built a full stack legal-tech platform from architecture to deployment, handling authentication, backend systems, and frontend delivery.",
+    period: "Apr 2026",
+    tag: "Solo Project · Legal-Tech",
+    desc: "Designed and built a legal-tech platform solo — dual-role dashboards for lawyers and clients, document workflows, and a FastAPI + PostgreSQL backend.",
     bullets: [
-      "Implemented Google OAuth authentication with secure session management and token handling",
-      "Built multi-role dashboard system with real-time communication layer",
-      "Designed FastAPI + PostgreSQL backend with normalized schema architecture",
-      "Developed React + TypeScript frontend with modular, reusable component structure",
-      "Built task tracking, deadlines, and activity notification system for workflow management",
-      "Implemented client portal with document management and structured workflow processing",
+      "Google OAuth with session management and role-scoped access across two portal types",
+      "Multi-role dashboard with task tracking, deadlines, and activity notifications",
+      "FastAPI + PostgreSQL backend with normalised schema and structured API versioning",
+      "Client portal with document upload and lawyer–client communication workflows",
+      "React + TypeScript frontend with modular component architecture",
     ],
   },
 ];
@@ -77,75 +76,75 @@ const PROJECTS = [
     title: "Nepal Bhramad",
     type: "Full Stack Travel Platform",
     stack: ["React", "TypeScript", "Spring Boot", "PostgreSQL"],
-    desc: "End-to-end travel booking platform with complete user workflow, admin system, and scalable backend architecture.",
+    desc: "Travel booking platform with search, booking, user accounts, admin operations, and a ratings system — built on Spring Boot and PostgreSQL.",
     features: [
-      "Search and booking workflow system",
-      "User authentication and role management",
-      "Admin dashboard for operations",
-      "Tour and package management system",
-      "Ratings and review system",
+      "Search, filter, and booking workflow with availability checks",
+      "JWT-authenticated user accounts with booking history",
+      "Admin dashboard for tour and package lifecycle management",
+      "Star-rating and review system per completed booking",
+      "Relational PostgreSQL schema with proper normalisation",
     ],
     bg: "var(--yellow)",
   },
   {
     num: "02",
     title: "HousePal",
-    type: "Cross-Platform Marketplace",
+    type: "Cross-Platform Service Marketplace",
     stack: ["React", "Node.js", "Express", "MongoDB", "Flutter"],
-    desc: "Multi-platform marketplace connecting users with service providers and job seekers across web and mobile.",
+    desc: "Dual-sided marketplace connecting homeowners with skilled workers — web platform plus native mobile app, sharing one REST API backend.",
     features: [
-      "Job posting and application system",
-      "Service provider profile system",
-      "Cross-platform mobile and web integration",
-      "REST API backend architecture",
-      "End-to-end workflow automation system",
+      "Job posting, bidding, and hire workflow for homeowners",
+      "Worker profiles with skills, ratings, and availability",
+      "Shared Express REST API serving both React web and Flutter mobile",
+      "Application and status management system",
+      "End-to-end booking and payment workflow",
     ],
     bg: "var(--pink)",
   },
   {
     num: "03",
     title: "AstroQuest",
-    type: "Interactive Learning Platform",
+    type: "Gamified 3D Learning Platform",
     stack: ["React", "Three.js", "Node.js", "MongoDB"],
-    desc: "Gamified astronomy learning platform with 3D visualization and structured learning progression system.",
+    desc: "Gamified astronomy platform with a 3D solar system, XP-based progression, quiz engine, and an admin CMS for content management.",
     features: [
-      "3D solar system simulation",
-      "Interactive quiz and scoring system",
-      "XP-based learning progression",
-      "Bookmarking and progress tracking",
-      "Admin CMS for content management",
+      "Live 3D solar system built with Three.js and orbital physics",
+      "XP system, level gates, and a persistent learning path",
+      "Quiz engine with scoring and instant feedback",
+      "Bookmark and progress tracking across sessions",
+      "Admin CMS for content creation and quiz management",
     ],
     bg: "var(--mint)",
   },
   {
     num: "04",
-    title: "Thesis AI Analysis",
-    type: "Geospatial ML Research",
+    title: "Koshi Basin ML Analysis",
+    type: "Geospatial ML Research Thesis",
     stack: ["Python", "TensorFlow", "Google Earth Engine", "QGIS"],
-    desc: "Machine learning pipeline for satellite-based environmental analysis of Koshi River Basin using multi-model approach.",
+    desc: "University thesis: a multi-model ML pipeline for satellite-based environmental change detection in Nepal's Koshi River Basin — CNN, LSTM, and Random Forest combined.",
     features: [
-      "Satellite image preprocessing pipeline",
-      "CNN-based land classification model",
-      "Random Forest feature importance analysis",
-      "LSTM time-series forecasting model",
-      "GIS visualization using QGIS",
+      "Satellite image preprocessing pipeline via Google Earth Engine",
+      "CNN model for land cover classification from multispectral imagery",
+      "LSTM time-series model forecasting basin-level environmental change",
+      "Random Forest analysis for feature importance across variables",
+      "GIS visualisation and map output in QGIS",
     ],
     bg: "var(--sky)",
   },
 ];
 
 const SKILLS = {
-  Frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+  Frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
   Backend: ["Node.js", "Express.js", "FastAPI", "Spring Boot"],
   Languages: ["JavaScript", "TypeScript", "Python", "Java", "Dart"],
   Databases: ["PostgreSQL", "MongoDB", "MySQL", "Supabase"],
-  Tools: ["Git", "GitHub", "Docker (Basic)", "Postman", "Figma"],
+  Tools: ["Git", "GitHub", "Docker (Basic)", "Postman", "Figma", "PowerBI"],
   Engineering: [
+    "REST API Design",
+    "Multi-Tenant Architecture",
+    "JWT / OAuth Authentication",
     "System Design Fundamentals",
-    "REST API Architecture",
-    "Authentication (JWT/OAuth)",
-    "MVC Pattern",
-    "Agile Development Workflow",
+    "Agile Delivery",
   ],
 };
 
@@ -154,9 +153,9 @@ const EDUCATION = [
     degree: "BSc (Hons) Computing",
     institution: "Coventry University (via Softwarica College)",
     details: [
-      "First Class Honours (71.7%)",
-      "Graduated: Jan 2026",
-      "Scholarship: 25%",
+      "First Class Honours — 71.7%",
+      "Graduated January 2026",
+      "Merit Scholarship: 25%",
     ],
     color: "var(--yellow)",
   },
@@ -168,29 +167,32 @@ const EDUCATION = [
   },
 ];
 
-const ACHIEVEMENTS = [
-  "IoA Student Member",
-  "8 Months Professional Startup Experience",
-  "Multiple Production Deployments",
-  "First Class Honours Graduate",
-];
-
 const INTERESTS = [
-  "Full Stack Engineering",
-  "Scalable Web Systems",
-  "AI Applications",
-  "UI/UX Engineering",
-  "Distributed Systems Thinking",
-  "Open Source Contribution",
+  {
+    heading: "Building things people actually use",
+    body: "I care about both sides of it — the backend architecture that makes it reliable, and the frontend feel that makes it worth using. A product that works but feels rough bothers me as much as one that looks good but breaks.",
+  },
+  {
+    heading: "Systems that scale past the first version",
+    body: "I enjoy thinking about data models, API contracts, and auth flows before writing a line of code. Getting the architecture right early is the difference between a codebase you can build on and one you fight every sprint.",
+  },
+  {
+    heading: "Good engineering culture over everything else",
+    body: "Company stage, industry, stack — I'm flexible on all of it. What I care about is working with people who take their craft seriously, give honest feedback, and build things that matter to someone.",
+  },
+  {
+    heading: "Films and music",
+    body: "Outside of code I spend time watching films and listening to music. Both are about how you make someone feel something — which isn't that different from good UI, honestly.",
+  },
 ];
 
 const TICKER_ITEMS = [
-  "Full Stack Engineer",
-  "React · Next.js · Node.js",
-  "FastAPI · PostgreSQL",
-  "Kathmandu, Nepal",
-  "Open to Full-Time Roles",
-  "BSc Computing · Coventry University",
+  "Full Stack Developer · React · Node · FastAPI",
+  "3 Products Shipped at PortMi",
+  "First Class Honours — Coventry University",
+  "Open to Worldwide Opportunities",
+  "Available Immediately · Remote or On-site",
+  "Modaash MMS · Kumari Trust · StratBridge Partners",
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -240,7 +242,6 @@ function Ticker() {
 }
 
 // ─── PROJECT CARD ─────────────────────────────────────────────────────────────
-// bg is set as inline style — never overridden on hover, so content never disappears
 function ProjectCard({ project, index }) {
   return (
     <article
@@ -280,19 +281,20 @@ function Hero() {
         <div className="hero__badges">
           <span className="pill pill--outline">Portfolio · 2026</span>
           <span className="pill pill--lime">
-            <span className="dot" /> Open to Work
+            <span className="dot" /> Available Now
           </span>
         </div>
 
         {/* big centered headline */}
         <h1 className="hero__h1">
-          Give your team a dev
+          Full stack engineer who's
           <br />
-          who ships. <mark className="hero__mark">Meet Pramudita.</mark>
+          already shipped.{" "}
+          <mark className="hero__mark">Hi, I'm Pramudita.</mark>
         </h1>
         <p className="hero__sub">
-          Full stack developer · Kathmandu, Nepal · BSc Computing (First Class,
-          Coventry)
+          React · Node.js · FastAPI · PostgreSQL · TypeScript · Kathmandu, Nepal
+          · Open worldwide
         </p>
 
         {/* card collage row */}
@@ -300,22 +302,22 @@ function Hero() {
           <div className="hcard hcard--black hcard--tilt-l">
             <div className="hcard__label">What I do</div>
             <p>
-              Build production-ready web apps from idea to deployment — React,
-              Node, FastAPI, databases, the whole stack.
+              Build and ship full stack web apps — React frontends, Node or
+              FastAPI backends, PostgreSQL, auth, the whole thing.
             </p>
           </div>
 
           <div className="hcard hcard--yellow">
-            <div className="hcard__label">Experience</div>
+            <div className="hcard__label">Track record</div>
             <p>
-              8 months at PortMi startup · Shipped 3 live products · Now
-              building SmartWokil
+              8 months at PortMi · 3 products in production · SmartWokil built
+              solo
             </p>
-            <div className="hcard__stat">8mo</div>
+            <div className="hcard__stat">3 live</div>
           </div>
 
           <div className="hcard hcard--white hcard--tilt-r">
-            <div className="hcard__label">Core Stack</div>
+            <div className="hcard__label">Core stack</div>
             <div className="hcard__pills">
               {[
                 "React",
@@ -333,12 +335,13 @@ function Hero() {
           </div>
 
           <div className="hcard hcard--pink">
-            <div className="hcard__label">Status</div>
+            <div className="hcard__label">Availability</div>
             <p>
-              Available for full-time, freelance & collaborations worldwide.
+              Full-time, contract, or remote — anywhere in the world. Ready to
+              start immediately.
             </p>
             <span className="pill pill--black" style={{ marginTop: "auto" }}>
-              Hire me ↗
+              Let's talk ↗
             </span>
           </div>
         </div>
@@ -348,9 +351,9 @@ function Hero() {
           {[
             ["Location", "Kathmandu, Nepal"],
             ["Degree", "BSc (Hons) Computing"],
-            ["University", "Coventry · 2025"],
-            ["Honours", "First Class · 71.7%"],
-            ["Experience", "8 months Startup"],
+            ["Result", "First Class · 71.7%"],
+            ["Experience", "8 mo Startup · 3 Live Products"],
+            ["Status", "Available Immediately"],
           ].map(([l, v]) => (
             <div className="hero__info-cell" key={l}>
               <span className="hero__info-label">{l}</span>
@@ -361,11 +364,11 @@ function Hero() {
 
         {/* CTAs */}
         <div className="hero__ctas">
-          <a href="#projects" className="btn btn--black">
-            View Projects ↓
+          <a href="#experience" className="btn btn--black">
+            See My Work ↓
           </a>
           <a href="#contact" className="btn btn--outline">
-            Contact Me
+            Hire Me
           </a>
           <a
             href="https://github.com/Pramudita29"
@@ -458,7 +461,7 @@ export default function App() {
             ))}
           </nav>
           <a href="#contact" className="nav__cta btn btn--lime">
-            Let's Talk
+            Hire Me
           </a>
           <button
             className="nav__burger"
@@ -479,9 +482,9 @@ export default function App() {
         <div className="sec-head" data-reveal>
           <span className="kicker">00 — About</span>
           <h2 className="sec-title">
-            Transform scattered ideas
+            Full stack developer
             <br />
-            <em>into shipped products.</em>
+            <em>based in Kathmandu.</em>
           </h2>
         </div>
 
@@ -490,19 +493,19 @@ export default function App() {
             {[
               {
                 icon: "⚡",
-                text: "Ship features fast inside a real startup — not just side projects",
+                text: "Shipped 3 products at PortMi — frontend, backend, and everything between",
               },
               {
                 icon: "🔗",
-                text: "Own the full stack — frontend, backend, APIs, databases, deployments",
+                text: "Full stack: React, Node.js, FastAPI, PostgreSQL, auth, deployments",
               },
               {
                 icon: "🧠",
-                text: "Turn scattered requirements into clean, scalable architecture",
+                text: "Built a legal-tech platform solo from schema design to working UI",
               },
               {
                 icon: "🛠",
-                text: "Write code that real users actually depend on in production",
+                text: "Comfortable with weekly release cycles and production systems",
               },
             ].map((f, i) => (
               <div className="about__feat" key={i}>
@@ -524,17 +527,14 @@ export default function App() {
 
         <div className="about__bio" data-reveal>
           <p>
-            I'm a Full Stack Developer who learned the most by working inside a
-            real startup — not as a founder, but as a developer on a small team.
-            That experience taught me to ship fast, collaborate under pressure,
-            and take full ownership across the codebase.
+            At PortMi I worked across the full stack on three products — Modaash
+            MMS, Kumari Trust, and StratBridge Partners — each shipped and used
+            by real organisations.
           </p>
           <p>
-            At PortMi, I started as an intern and grew into a full stack role. I
-            wasn't just writing code — I was helping build a product that real
-            people used. That's where I truly understood what "production-ready"
-            means. Since then I've built my own legal-tech platform from
-            scratch.
+            After that I built SmartWokil on my own: a legal-tech platform
+            covering OAuth, dual-role dashboards for lawyers and clients, a
+            FastAPI + PostgreSQL backend, and a full document workflow.
           </p>
         </div>
       </section>
@@ -678,59 +678,41 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── ACHIEVEMENTS + INTERESTS ── */}
-      <section className="section section--split section--lime">
-        <div className="split-col" data-reveal>
-          <div className="sec-head">
-            <span className="kicker">05 — Achievements</span>
-            <h2 className="sec-title">
-              Proud
-              <br />
-              <em>moments.</em>
-            </h2>
-          </div>
-          <ul className="ach-list">
-            {ACHIEVEMENTS.map((a, i) => (
-              <li key={i} className="ach-item">
-                <span className="ach-n">0{i + 1}</span>
-                <span>{a}</span>
-              </li>
-            ))}
-          </ul>
+      {/* ── INTERESTS ── */}
+      <section className="section section--lime" id="interests">
+        <div className="sec-head" data-reveal>
+          <span className="kicker">05 — Interests</span>
+          <h2 className="sec-title">
+            What I
+            <br />
+            <em>care about.</em>
+          </h2>
         </div>
-        <div className="split-col" data-reveal>
-          <div className="sec-head">
-            <span className="kicker">06 — Interests</span>
-            <h2 className="sec-title">
-              What I<br />
-              <em>care about.</em>
-            </h2>
-          </div>
-          <div className="int-grid">
-            {INTERESTS.map((item, i) => (
-              <span className="int-chip" key={i}>
-                {item}
-              </span>
-            ))}
-          </div>
+        <div className="int-grid" data-reveal>
+          {INTERESTS.map((item, i) => (
+            <div className="int-card" key={i}>
+              <h3 className="int-card__heading">{item.heading}</h3>
+              <p className="int-card__body">{item.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ── CONTACT ── */}
       <section className="section" id="contact">
         <div className="sec-head" data-reveal>
-          <span className="kicker">07 — Contact</span>
+          <span className="kicker">06 — Contact</span>
         </div>
         <div className="contact-grid">
           <div data-reveal>
             <h2 className="contact-title">
-              Let's work
+              Ready to hire
               <br />
-              <mark className="contact-mark">together.</mark>
+              <mark className="contact-mark">someone who ships?</mark>
             </h2>
             <p className="contact-sub">
-              Open to internships, collaborations, and full-time opportunities
-              in full stack or frontend development.
+              I'm available for full-time roles, contract work, and remote
+              positions worldwide. I can start immediately.
             </p>
             <div className="contact-badges">
               <span className="pill pill--black">Worldwide</span>
@@ -783,7 +765,7 @@ export default function App() {
         <button className="footer__top" onClick={toTop}>
           Back to Top ↑
         </button>
-        <span>Full Stack Developer · Kathmandu</span>
+        <span>Full Stack Developer · Kathmandu · Open Worldwide</span>
       </footer>
     </div>
   );
