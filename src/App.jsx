@@ -151,10 +151,10 @@ const SKILLS = {
 const EDUCATION = [
   {
     degree: "BSc (Hons) Computing",
-    institution: "Coventry University (via Softwarica College)",
+    institution: "Coventry University (via Softwarica College of IT and e-commerce)",
     details: [
       "First Class Honours — 71.7%",
-      "Graduated January 2026",
+      "Graduated December 2025",
       "Merit Scholarship: 25%",
     ],
     color: "var(--yellow)",
