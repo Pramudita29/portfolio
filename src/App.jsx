@@ -151,7 +151,8 @@ const SKILLS = {
 const EDUCATION = [
   {
     degree: "BSc (Hons) Computing",
-    institution: "Coventry University (via Softwarica College of IT and e-commerce)",
+    institution:
+      "Coventry University (via Softwarica College of IT and e-commerce)",
     details: [
       "First Class Honours — 71.7%",
       "Graduated December 2025",
@@ -164,6 +165,24 @@ const EDUCATION = [
     institution: "GoldenGate International College",
     details: ["GPA: 3.27", "Completed: 2022"],
     color: "var(--mint)",
+  },
+];
+
+const CERTIFICATIONS = [
+  {
+    title: "Data Science Essentials with Python",
+    issuer: "Cisco Networking Academy",
+    date: "July 2026",
+    detail:
+      "Verified certification covering Python-based data analysis, data wrangling, and core data science workflows.",
+    color: "var(--sky)",
+    certId: "bd5e8204-003f-4d00-8a60-e17b9011f7ab",
+    credlyUrl:
+      "https://www.credly.com/badges/8f420355-a676-4040-80e7-76dcc8aca926/public_url",
+    image: {
+      src: "/certificates/data-science-certificate.jpg",
+      label: "Certificate",
+    },
   },
 ];
 
@@ -269,6 +288,71 @@ function ProjectCard({ project, index }) {
       </ul>
       <span className="proj-arrow">→</span>
     </article>
+  );
+}
+
+// ─── CERT MODAL ────────────────────────────────────────────────────────────────
+function CertModal({ cert, onClose }) {
+  useEffect(() => {
+    if (!cert) return;
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [cert, onClose]);
+
+  if (!cert) return null;
+
+  return (
+    <div className="cert-modal" onClick={onClose}>
+      <div className="cert-modal__panel" onClick={(e) => e.stopPropagation()}>
+        <div className="cert-modal__head">
+          <div>
+            <span className="cert-badge">Verified</span>
+            <h3 className="cert-modal__title">{cert.title}</h3>
+            <p className="cert-modal__issuer">
+              {cert.issuer} · {cert.date}
+            </p>
+          </div>
+          <button
+            className="cert-modal__close"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="cert-modal__images cert-modal__images--single">
+          <figure className="cert-modal__figure">
+            <img
+              src={cert.image.src}
+              alt={`${cert.title} — ${cert.image.label}`}
+            />
+            <figcaption>{cert.image.label}</figcaption>
+          </figure>
+        </div>
+
+        <div className="cert-modal__footer">
+          {cert.certId && (
+            <span className="cert-modal__id">Cert ID: {cert.certId}</span>
+          )}
+          {cert.credlyUrl && (
+            <a
+              className="cert-modal__credly"
+              href={cert.credlyUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              View on Credly ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -393,6 +477,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const [activeCert, setActiveCert] = useState(null);
   const lastY = useRef(0);
 
   useReveal();
@@ -678,10 +763,44 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── CERTIFICATIONS ── */}
+      <section className="section section--cream" id="certifications">
+        <div className="sec-head" data-reveal>
+          <span className="kicker">05 — Certifications</span>
+          <h2 className="sec-title">
+            Keeping the
+            <br />
+            <em>skills current.</em>
+          </h2>
+        </div>
+        <div className="cert-grid">
+          {CERTIFICATIONS.map((c, i) => (
+            <button
+              className="cert-card"
+              key={i}
+              data-reveal
+              style={{ "--delay": `${i * 0.1}s`, "--cert-bg": c.color }}
+              onClick={() => setActiveCert(c)}
+            >
+              <div className="cert-card__top">
+                <span className="cert-badge">Verified</span>
+                <span className="cert-date">{c.date}</span>
+              </div>
+              <h3 className="cert-title">{c.title}</h3>
+              <p className="cert-issuer">{c.issuer}</p>
+              <p className="cert-detail">{c.detail}</p>
+              <span className="cert-card__view">View certificate →</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <CertModal cert={activeCert} onClose={() => setActiveCert(null)} />
+
       {/* ── INTERESTS ── */}
       <section className="section section--lime" id="interests">
         <div className="sec-head" data-reveal>
-          <span className="kicker">05 — Interests</span>
+          <span className="kicker">06 — Interests</span>
           <h2 className="sec-title">
             What I
             <br />
@@ -701,7 +820,7 @@ export default function App() {
       {/* ── CONTACT ── */}
       <section className="section" id="contact">
         <div className="sec-head" data-reveal>
-          <span className="kicker">06 — Contact</span>
+          <span className="kicker">07 — Contact</span>
         </div>
         <div className="contact-grid">
           <div data-reveal>
