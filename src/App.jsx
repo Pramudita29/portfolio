@@ -686,7 +686,7 @@ export default function App() {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/in/pramudita-bhattarai"
+                  href="https://www.linkedin.com/in/pramudita-bhattarai-11957a2ab"
                   target="_blank"
                   rel="noreferrer"
                 >
