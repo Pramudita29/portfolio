@@ -1,22 +1,9 @@
 "use client";
-import gsap from "gsap";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./index.scss";
 
 // ─── DATA (unchanged) ───────────────────────────────────────────────────────
 const NAV_ITEMS = ["About", "Experience", "Projects", "Skills", "Contact"];
-
-const SECTIONS = [
-  { id: "hero", num: "00", label: "Intro" },
-  { id: "about", num: "01", label: "About" },
-  { id: "experience", num: "02", label: "Experience" },
-  { id: "projects", num: "03", label: "Projects" },
-  { id: "skills", num: "04", label: "Skills" },
-  { id: "education", num: "05", label: "Education" },
-  { id: "certifications", num: "06", label: "Certs" },
-  { id: "interests", num: "07", label: "Interests" },
-  { id: "contact", num: "08", label: "Contact" },
-];
 
 const STATS = [
   { value: "3", label: "Products shipped to production" },
@@ -27,7 +14,6 @@ const STATS = [
 
 const EXPERIENCE = [
   {
-    num: "01",
     role: "Software Developer",
     company: "PortMi",
     location: "Kathmandu, Nepal",
@@ -70,7 +56,6 @@ const EXPERIENCE = [
 
 const PROJECTS = [
   {
-    num: "01",
     title: "Nepal Bhramad",
     type: "Full Stack Travel Platform",
     stack: ["React", "TypeScript", "Spring Boot", "PostgreSQL"],
@@ -82,10 +67,8 @@ const PROJECTS = [
       "Star-rating and review system per completed booking",
       "Relational PostgreSQL schema with normalized data structures",
     ],
-    bg: "var(--yellow)",
   },
   {
-    num: "02",
     title: "HousePal",
     type: "Cross-Platform Service Marketplace",
     stack: ["React", "Node.js", "Express", "MongoDB", "Flutter"],
@@ -97,10 +80,8 @@ const PROJECTS = [
       "Application and status management system",
       "Service tracking and homeowner-to-worker matching",
     ],
-    bg: "var(--pink)",
   },
   {
-    num: "03",
     title: "AstroQuest",
     type: "Gamified 3D Learning Platform",
     stack: ["React", "Three.js", "Node.js", "MongoDB"],
@@ -112,10 +93,8 @@ const PROJECTS = [
       "XP-based progression and quiz scoring",
       "Admin CMS for content creation and quiz management",
     ],
-    bg: "var(--mint)",
   },
   {
-    num: "04",
     title: "Koshi Basin ML Analysis",
     type: "Research Project · Geospatial ML Thesis",
     stack: ["Python", "TensorFlow", "Google Earth Engine", "QGIS"],
@@ -126,7 +105,6 @@ const PROJECTS = [
       "Explored environmental forecasting using research datasets",
       "Presented findings through visual maps and technical documentation",
     ],
-    bg: "var(--sky)",
   },
 ];
 
@@ -161,13 +139,11 @@ const EDUCATION = [
       "Graduated December 2025",
       "Merit Scholarship: 25%",
     ],
-    color: "var(--yellow)",
   },
   {
     degree: "+2 Management",
     institution: "GoldenGate International College",
     details: ["GPA: 3.27 / 4.00", "Completed: 2022"],
-    color: "var(--mint)",
   },
 ];
 
@@ -178,7 +154,6 @@ const CERTIFICATIONS = [
     date: "July 2026",
     detail:
       "Verified certification covering Python-based data analysis, data wrangling, and core data science workflows.",
-    color: "var(--sky)",
     certId: "bd5e8204-003f-4d00-8a60-e17b9011f7ab",
     credlyUrl:
       "https://www.credly.com/badges/8f420355-a676-4040-80e7-76dcc8aca926/public_url",
@@ -208,366 +183,113 @@ const INTERESTS = [
   },
 ];
 
-const TICKER_ITEMS = [
-  "Software Developer · Full-Stack Developer",
-  "3 Production Products Shipped at PortMi",
-  "First Class Honours · 71.7%",
-  "Open to International Opportunities",
-  "React · Node.js · TypeScript · PostgreSQL",
-  "Modaash MMS · Kumari Trust · StratBridge Partners",
-];
-
-const slug = (s) =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_|_$/g, "");
-
-// ─── NATIVE SCROLLING ────────────────────────────────────────────────────────
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 function scrollToId(id) {
   const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-// FIX: the class added here is "revealed" and the stylesheet now targets it
-// (the old stylesheet looked for ".is-visible", so every [data-reveal] stayed hidden).
-function useReveal() {
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
   useEffect(() => {
-    const els = document.querySelectorAll("[data-reveal]");
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("revealed");
-            io.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.08 },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const fn = (e) => setReduced(e.matches);
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
   }, []);
+  return reduced;
 }
 
-function ScrollProgress() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const fn = () => {
-      const t = document.body.scrollHeight - window.innerHeight;
-      if (ref.current)
-        ref.current.style.width =
-          (t > 0 ? (window.scrollY / t) * 100 : 0) + "%";
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-  return <div className="scroll-bar" ref={ref} />;
-}
-
-function Ticker() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS];
+// Layout shell: sticky title on the left, content on the right
+function Shell({ id, title, note, alt, children }) {
   return (
-    <div className="ticker" aria-hidden="true">
-      <div className="ticker__track">
-        {items.map((item, i) => (
-          <span key={i} className="ticker__item">
-            {item} <span className="ticker__dot">✦</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Retro window title bar, reused by every card
-function WinBar({ title }) {
-  return (
-    <div className="win__bar" aria-hidden="true">
-      <span className="win__title">{title}</span>
-      <span className="win__btns">
-        <i />
-        <i />
-        <i />
-      </span>
-    </div>
-  );
-}
-
-// ─── CUSTOM CURSOR ───────────────────────────────────────────────────────────
-function CustomCursor() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
-  const visibleRef = useRef(false);
-  const [enabled] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      !window.matchMedia("(pointer: coarse)").matches,
-  );
-  const [hovering, setHovering] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!enabled) return;
-    const dot = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
-    document.documentElement.classList.add("has-custom-cursor");
-    const dotX = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power3" });
-    const dotY = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power3" });
-    const ringX = gsap.quickTo(ring, "x", { duration: 0.45, ease: "power3" });
-    const ringY = gsap.quickTo(ring, "y", { duration: 0.45, ease: "power3" });
-    const move = (e) => {
-      if (!visibleRef.current) {
-        visibleRef.current = true;
-        setVisible(true);
-      }
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
-    };
-    const over = (e) => {
-      if (e.target.closest("a, button, [data-cursor='hover']"))
-        setHovering(true);
-    };
-    const out = (e) => {
-      if (e.target.closest("a, button, [data-cursor='hover']"))
-        setHovering(false);
-    };
-    window.addEventListener("mousemove", move);
-    document.addEventListener("mouseover", over);
-    document.addEventListener("mouseout", out);
-    return () => {
-      document.documentElement.classList.remove("has-custom-cursor");
-      window.removeEventListener("mousemove", move);
-      document.removeEventListener("mouseover", over);
-      document.removeEventListener("mouseout", out);
-    };
-  }, [enabled]);
-
-  if (!enabled) return null;
-  return (
-    <>
-      <div
-        className={`cursor-dot ${visible ? "cursor-dot--visible" : ""}`}
-        ref={dotRef}
-      />
-      <div
-        className={`cursor-ring ${visible ? "cursor-ring--visible" : ""} ${
-          hovering ? "cursor-ring--hover" : ""
-        }`}
-        ref={ringRef}
-      />
-    </>
-  );
-}
-
-// ─── MAGNETIC ────────────────────────────────────────────────────────────────
-function Magnetic({ children, strength = 0.35, className = "" }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
-    const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
-    const move = (e) => {
-      const b = el.getBoundingClientRect();
-      xTo((e.clientX - (b.left + b.width / 2)) * strength);
-      yTo((e.clientY - (b.top + b.height / 2)) * strength);
-    };
-    const leave = () => {
-      xTo(0);
-      yTo(0);
-    };
-    el.addEventListener("mousemove", move);
-    el.addEventListener("mouseleave", leave);
-    return () => {
-      el.removeEventListener("mousemove", move);
-      el.removeEventListener("mouseleave", leave);
-    };
-  }, [strength]);
-  return (
-    <div ref={ref} className={`magnetic ${className}`} data-cursor="hover">
-      {children}
-    </div>
-  );
-}
-
-// ─── SECTION ELEMENTS ────────────────────────────────────────────────────────
-function ChapterNumber({ num }) {
-  return (
-    <span className="chapter-num" aria-hidden="true">
-      {num}
-    </span>
-  );
-}
-
-function SectionTitle({ children, className = "" }) {
-  return <h2 className={`sec-title ${className}`}>{children}</h2>;
-}
-
-function Recede({ children, as: Tag = "section", ...rest }) {
-  return <Tag {...rest}>{children}</Tag>;
-}
-
-// ─── SPOTLIGHT ───────────────────────────────────────────────────────────────
-function DarkSpotlight() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    const parent = el?.parentElement;
-    if (!parent) return;
-    const move = (e) => {
-      const b = parent.getBoundingClientRect();
-      el.style.setProperty("--mx", `${e.clientX - b.left}px`);
-      el.style.setProperty("--my", `${e.clientY - b.top}px`);
-      el.style.opacity = "1";
-    };
-    const leave = () => (el.style.opacity = "0");
-    parent.addEventListener("mousemove", move);
-    parent.addEventListener("mouseleave", leave);
-    return () => {
-      parent.removeEventListener("mousemove", move);
-      parent.removeEventListener("mouseleave", leave);
-    };
-  }, []);
-  return <div className="spotlight" ref={ref} aria-hidden="true" />;
-}
-
-// ─── SECTION DOTS ────────────────────────────────────────────────────────────
-function SectionDots({ active }) {
-  return (
-    <nav className="section-dots" aria-label="Section navigation">
-      {SECTIONS.map((s) => (
-        <button
-          key={s.id}
-          className={`section-dots__item ${
-            active === s.id ? "section-dots__item--active" : ""
-          }`}
-          onClick={() => scrollToId(s.id)}
-          aria-label={`Go to ${s.label}`}
-          data-cursor="hover"
-        >
-          <span className="section-dots__label">
-            {s.num} {s.label}
-          </span>
-          <span className="section-dots__dot" />
-        </button>
-      ))}
-    </nav>
-  );
-}
-
-// ─── TEXT ─────────────────────────────────────────────────────────────────────
-function TextReveal({ text, className = "", tag = "p" }) {
-  const Tag = tag;
-  return <Tag className={`text-reveal ${className}`}>{text}</Tag>;
-}
-
-// ─── PRELOADER ───────────────────────────────────────────────────────────────
-function Preloader({ onDone }) {
-  const rootRef = useRef(null);
-  const numRef = useRef(null);
-  const fillRef = useRef(null);
-  useEffect(() => {
-    const counter = { val: 0 };
-    const tl = gsap.timeline({
-      defaults: { ease: "power2.out" },
-      onComplete: onDone,
-    });
-    tl.to(counter, {
-      val: 100,
-      duration: 1.2,
-      onUpdate: () => {
-        if (numRef.current)
-          numRef.current.textContent = Math.round(counter.val);
-      },
-    })
-      .to(fillRef.current, { width: "100%", duration: 1.2 }, "<")
-      .to(
-        rootRef.current,
-        { yPercent: -100, duration: 0.75, ease: "power4.inOut" },
-        "+=0.12",
-      );
-    return () => tl.kill();
-  }, []);
-  return (
-    <div className="preloader" ref={rootRef}>
-      <div className="preloader__inner win">
-        <WinBar title="loading_portfolio.exe" />
-        <div className="win__body">
-          <span className="preloader__logo">
-            PB<span className="preloader__dot">.</span>
-          </span>
-          <div className="preloader__bar">
-            <div className="preloader__bar-fill" ref={fillRef} />
-          </div>
-          <span className="preloader__num">
-            <span ref={numRef}>0</span>%
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── PROJECT CARD ────────────────────────────────────────────────────────────
-function ProjectCard({ project }) {
-  return (
-    <article
-      className="proj-card win"
-      data-cursor="hover"
-      style={{ "--card-bg": project.bg }}
-    >
-      <WinBar title={`${slug(project.title)}.app`} />
-      <div className="win__body">
-        <div className="proj-card__top">
-          <span className="proj-num">{project.num}</span>
-          <span className="proj-type">{project.type}</span>
-        </div>
-        <h3 className="proj-title">{project.title}</h3>
-        <p className="proj-desc">{project.desc}</p>
-        <div className="proj-stack">
-          {project.stack.map((s) => (
-            <span key={s} className="proj-tag">
-              {s}
-            </span>
-          ))}
-        </div>
-        <ul className="proj-features">
-          {project.features.map((f) => (
-            <li key={f}>{f}</li>
-          ))}
-        </ul>
-      </div>
-    </article>
-  );
-}
-
-// ─── PROJECTS ─────────────────────────────────────────────────────────────────
-function ProjectsSection() {
-  return (
-    <section className="section section--projects" id="projects">
-      <div className="sec-head sec-head--rail" data-reveal>
-        <ChapterNumber num="03" />
-        <span className="kicker">✦ Projects</span>
-        <SectionTitle>
-          Things I've
-          <br />
-          <em>built.</em>
-        </SectionTitle>
-      </div>
-      <div className="proj-rail">
-        <div className="proj-rail__track">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={i} project={p} />
-          ))}
-        </div>
+    <section className={`section ${alt ? "section--alt" : ""}`} id={id}>
+      <div className="wrap shell">
+        <header className="shell__head">
+          <h2 className="shell__title">{title}</h2>
+          {note && <p className="shell__note">{note}</p>}
+        </header>
+        <div className="shell__body">{children}</div>
       </div>
     </section>
+  );
+}
+
+// ─── SYSTEM DIAGRAM (hero) ───────────────────────────────────────────────────
+const NODES = [
+  { id: "client", x: 20, y: 20, title: "Client", sub: "React · Next.js · TS" },
+  { id: "api", x: 360, y: 20, title: "API", sub: "Node · FastAPI · Spring" },
+  { id: "realtime", x: 20, y: 165, title: "Realtime", sub: "WebSockets" },
+  { id: "auth", x: 360, y: 165, title: "Auth", sub: "JWT · role-based" },
+  { id: "db", x: 190, y: 310, title: "Database", sub: "PostgreSQL · MongoDB" },
+];
+
+const EDGES = [
+  { d: "M240 55 H358", dur: 2.2, begin: 0 },
+  { d: "M470 90 V163", dur: 1.8, begin: 0.6 },
+  { d: "M470 235 V272 H370 V308", dur: 2.4, begin: 1.1 },
+  { d: "M130 90 V163", dur: 1.8, begin: 0.3 },
+  { d: "M130 235 V272 H230 V308", dur: 2.4, begin: 1.6 },
+];
+
+function SystemDiagram() {
+  const reduced = usePrefersReducedMotion();
+  return (
+    <figure className="diagram">
+      <svg
+        viewBox="0 0 600 400"
+        role="img"
+        aria-label="Architecture diagram: client, API, realtime layer, auth and database connected by request paths"
+      >
+        <defs>
+          <marker
+            id="arrow"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto"
+          >
+            <path d="M0 0L10 5L0 10z" className="dg-arrow" />
+          </marker>
+        </defs>
+        {EDGES.map((e) => (
+          <path key={e.d} d={e.d} className="dg-edge" markerEnd="url(#arrow)" />
+        ))}
+        {NODES.map((n) => (
+          <g
+            key={n.id}
+            className="dg-node"
+            transform={`translate(${n.x} ${n.y})`}
+          >
+            <rect width="220" height="70" rx="10" />
+            <text x="18" y="31" className="dg-title">
+              {n.title}
+            </text>
+            <text x="18" y="53" className="dg-sub">
+              {n.sub}
+            </text>
+          </g>
+        ))}
+        {!reduced &&
+          EDGES.map((e) => (
+            <circle key={`p-${e.d}`} r="5" className="dg-packet">
+              <animateMotion
+                dur={`${e.dur}s`}
+                begin={`${e.begin}s`}
+                repeatCount="indefinite"
+                path={e.d}
+              />
+            </circle>
+          ))}
+      </svg>
+      <figcaption className="diagram__cap">
+        The request path behind the products I've shipped.
+      </figcaption>
+    </figure>
   );
 }
 
@@ -585,204 +307,48 @@ function CertModal({ cert, onClose }) {
   }, [cert, onClose]);
   if (!cert) return null;
   return (
-    <div className="cert-modal" onClick={onClose}>
+    <div className="modal" onClick={onClose}>
       <div
-        className="cert-modal__panel win"
+        className="modal__panel"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={cert.title}
       >
-        <WinBar title="certificate_viewer.exe" />
-        <div className="win__body">
-          <div className="cert-modal__head">
-            <div>
-              <span className="cert-badge">Verified</span>
-              <h3 className="cert-modal__title">{cert.title}</h3>
-              <p className="cert-modal__issuer">
-                {cert.issuer} · {cert.date}
-              </p>
-            </div>
-            <button
-              className="cert-modal__close"
-              onClick={onClose}
-              aria-label="Close"
+        <div className="modal__head">
+          <div>
+            <h3 className="modal__title">{cert.title}</h3>
+            <p className="modal__issuer">
+              {cert.issuer} · {cert.date}
+            </p>
+          </div>
+          <button className="modal__close" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
+        <figure className="modal__figure">
+          <img
+            src={cert.image.src}
+            alt={`${cert.title} — ${cert.image.label}`}
+          />
+        </figure>
+        <div className="modal__footer">
+          {cert.certId && (
+            <span className="modal__id">Cert ID: {cert.certId}</span>
+          )}
+          {cert.credlyUrl && (
+            <a
+              className="text-link"
+              href={cert.credlyUrl}
+              target="_blank"
+              rel="noreferrer"
             >
-              ✕
-            </button>
-          </div>
-          <div className="cert-modal__images cert-modal__images--single">
-            <figure className="cert-modal__figure">
-              <img
-                src={cert.image.src}
-                alt={`${cert.title} — ${cert.image.label}`}
-              />
-              <figcaption>{cert.image.label}</figcaption>
-            </figure>
-          </div>
-          <div className="cert-modal__footer">
-            {cert.certId && (
-              <span className="cert-modal__id">Cert ID: {cert.certId}</span>
-            )}
-            {cert.credlyUrl && (
-              <a
-                className="cert-modal__credly"
-                href={cert.credlyUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                View on Credly ↗
-              </a>
-            )}
-          </div>
+              View on Credly ↗
+            </a>
+          )}
         </div>
       </div>
     </div>
-  );
-}
-
-// ─── HERO ────────────────────────────────────────────────────────────────────
-function Hero() {
-  return (
-    <section className="hero" id="hero">
-      <span className="sticker sticker--star" aria-hidden="true">
-        ★
-      </span>
-      <span className="sticker sticker--spark" aria-hidden="true">
-        ✦
-      </span>
-      <span className="sticker sticker--orb" aria-hidden="true" />
-
-      <div className="hero__inner">
-        <div className="hero__badges">
-          <span className="pill pill--outline">Portfolio · 2026</span>
-          <span className="pill pill--lime">
-            <span className="dot" /> Open to Opportunities
-          </span>
-        </div>
-
-        <p className="hero__note">
-          This isn’t just a list of projects. It’s a short record of the things
-          I’ve actually shipped and how I think about building software that
-          lasts past the first version.
-        </p>
-
-        <h1 className="hero__h1">
-          Software developer building
-          <br />
-          <mark className="hero__mark">full-stack products.</mark> Hi, I'm
-          Pramudita.
-        </h1>
-
-        <p className="hero__sub">
-          Software Developer · Full-Stack Developer · Kathmandu, Nepal · Open to
-          international opportunities
-        </p>
-
-        <div className="hero__collage">
-          <div className="hcard win win--black hcard--tilt-l">
-            <WinBar title="what_i_do.exe" />
-            <div className="win__body">
-              <p>
-                Build and ship full stack web apps — React frontends, Node or
-                FastAPI backends, PostgreSQL, auth, the whole thing.
-              </p>
-            </div>
-          </div>
-          <div className="hcard win win--yellow">
-            <WinBar title="track_record.xls" />
-            <div className="win__body">
-              <p>8 months at PortMi · 3 production products shipped</p>
-              <div className="hcard__stat">3 live</div>
-            </div>
-          </div>
-          <div className="hcard win win--chrome hcard--tilt-r">
-            <WinBar title="core_stack.dll" />
-            <div className="win__body">
-              <div className="hcard__pills">
-                {[
-                  "React",
-                  "Next.js",
-                  "Node.js",
-                  "FastAPI",
-                  "PostgreSQL",
-                  "TypeScript",
-                ].map((s) => (
-                  <span key={s} className="hcard__pill">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="hcard win win--pink">
-            <WinBar title="availability.txt" />
-            <div className="win__body">
-              <p>
-                Interested in contributing to international engineering teams
-                and growing across modern web technologies.
-              </p>
-              <span className="pill pill--black" style={{ marginTop: "auto" }}>
-                Let's talk ↗
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="hero__ctas">
-          <Magnetic>
-            <a
-              href="#experience"
-              className="btn btn--black"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("experience");
-              }}
-            >
-              See the work ↓
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a
-              href="#contact"
-              className="btn btn--pink"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("contact");
-              }}
-            >
-              Hire Me
-            </a>
-          </Magnetic>
-          <Magnetic>
-            <a
-              href="https://github.com/Pramudita29"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn--ghost"
-            >
-              GitHub ↗
-            </a>
-          </Magnetic>
-        </div>
-
-        <div className="hero__info-strip">
-          {[
-            ["Location", "Kathmandu, Nepal"],
-            ["Degree", "BSc (Hons) Computing"],
-            ["Result", "First Class · 71.7%"],
-            ["Experience", "8 mo at PortMi · 3 Products Shipped"],
-            ["Status", "Available Immediately"],
-          ].map(([l, v]) => (
-            <div className="hero__info-cell" key={l}>
-              <span className="hero__info-label">{l}</span>
-              <span className="hero__info-val">{v}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <Ticker />
-    </section>
   );
 }
 
@@ -790,34 +356,10 @@ function Hero() {
 export default function App() {
   const [copyMsg, setCopyMsg] = useState("");
   const [navOpen, setNavOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [navHidden, setNavHidden] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [activeCert, setActiveCert] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  const lastY = useRef(0);
 
   const closeCert = useCallback(() => setActiveCert(null), []);
-
-  useReveal();
-
-  useEffect(() => {
-    let ticking = false;
-    const fn = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const sy = window.scrollY;
-          setScrolled(sy > 60);
-          setNavHidden(sy > lastY.current && sy > 300);
-          lastY.current = sy;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   useEffect(() => {
     const secs = document.querySelectorAll("section[id]");
@@ -826,7 +368,7 @@ export default function App() {
         entries.forEach((e) => {
           if (e.isIntersecting) setActiveSection(e.target.id);
         }),
-      { rootMargin: "-40% 0px -40% 0px" },
+      { rootMargin: "-45% 0px -45% 0px" },
     );
     secs.forEach((s) => io.observe(s));
     return () => io.disconnect();
@@ -834,56 +376,42 @@ export default function App() {
 
   const copyEmail = () => {
     navigator.clipboard.writeText("pbhattarai0129@gmail.com");
-    setCopyMsg("Copied!");
+    setCopyMsg("Copied to clipboard");
     setTimeout(() => setCopyMsg(""), 2000);
   };
 
-  const toTop = (e) => {
-    e.preventDefault();
-    scrollToId("hero");
-  };
-
-  const navLinkClick = (item) => (e) => {
+  const goTo = (id) => (e) => {
     e.preventDefault();
     setNavOpen(false);
-    scrollToId(item.toLowerCase());
+    scrollToId(id);
   };
 
   return (
     <div className="app">
-      {!loaded && <Preloader onDone={() => setLoaded(true)} />}
-      <CustomCursor />
-      <ScrollProgress />
-      <SectionDots active={activeSection} />
-
-      <header
-        className={`nav ${scrolled ? "nav--scrolled" : ""} ${navHidden ? "nav--hidden" : ""}`}
-      >
+      <header className="nav">
         <div className="nav__inner">
-          <a className="nav__logo" href="#hero" onClick={toTop}>
-            PB<span className="nav__dot">.</span>
+          <a className="nav__logo" href="#hero" onClick={goTo("hero")}>
+            Pramudita Bhattarai
           </a>
           <nav className={`nav__links ${navOpen ? "nav__links--open" : ""}`}>
             {NAV_ITEMS.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className={`nav__link ${activeSection === item.toLowerCase() ? "nav__link--active" : ""}`}
-                onClick={navLinkClick(item)}
+                className={`nav__link ${
+                  activeSection === item.toLowerCase()
+                    ? "nav__link--active"
+                    : ""
+                }`}
+                onClick={goTo(item.toLowerCase())}
               >
                 {item}
               </a>
             ))}
           </nav>
-          <Magnetic strength={0.25} className="nav__cta-wrap">
-            <a
-              href="#contact"
-              className="nav__cta btn btn--lime"
-              onClick={navLinkClick("Contact")}
-            >
-              Hire Me
-            </a>
-          </Magnetic>
+          <span className="nav__status">
+            <span className="dot" /> Available
+          </span>
           <button
             className="nav__burger"
             onClick={() => setNavOpen((v) => !v)}
@@ -892,366 +420,290 @@ export default function App() {
           >
             <span />
             <span />
-            <span />
           </button>
         </div>
       </header>
 
-      <Hero />
+      <main>
+        {/* ── HERO ── */}
+        <section className="hero" id="hero">
+          <div className="wrap hero__grid">
+            <div className="hero__copy">
+              <p className="hero__eyebrow">
+                Pramudita Bhattarai · Software developer · Kathmandu
+              </p>
+              <h1 className="hero__h1">
+                I build the whole system, not just the screen.
+              </h1>
+              <p className="hero__sub">
+                Full-stack developer who ships React frontends, APIs, auth,
+                databases and real-time features. Three live products delivered
+                in eight months at PortMi, and now looking for an international
+                team to join.
+              </p>
+              <div className="hero__ctas">
+                <a
+                  href="#experience"
+                  className="btn btn--primary"
+                  onClick={goTo("experience")}
+                >
+                  See what I've shipped
+                </a>
+                <a href="#contact" className="btn" onClick={goTo("contact")}>
+                  Get in touch
+                </a>
+                <a
+                  href="https://github.com/Pramudita29"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn--text"
+                >
+                  GitHub ↗
+                </a>
+              </div>
+            </div>
+            <SystemDiagram />
+          </div>
+        </section>
 
-      {/* ── ABOUT ── */}
-      <Recede className="section" id="about">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="01" />
-          <span className="kicker">✦ About</span>
-          <SectionTitle>
-            Software developer
-            <br />
-            <em>based in Kathmandu.</em>
-          </SectionTitle>
-        </div>
-        <div className="about__cols" data-reveal>
-          <div className="about__features">
-            {[
-              {
-                icon: "⚡",
-                text: "Shipped 3 products at PortMi — frontend, backend, and everything between",
-              },
-              {
-                icon: "🔗",
-                text: "Full stack: React, Node.js, FastAPI, PostgreSQL, auth, deployments",
-              },
-              {
-                icon: "🧠",
-                text: "Built REST APIs, authentication, real-time features, and role-based systems",
-              },
-              {
-                icon: "🛠",
-                text: "Comfortable with weekly release cycles and production systems",
-              },
-            ].map((f, i) => (
-              <div className="about__feat win" key={i}>
-                <WinBar title={`skill_0${i + 1}.exe`} />
-                <div className="win__body">
-                  <span className="about__feat-icon">{f.icon}</span>
-                  <p>{f.text}</p>
-                </div>
+        {/* ── ABOUT ── */}
+        <Shell id="about" title="About" note="Based in Kathmandu, Nepal.">
+          <div className="prose">
+            <p className="prose__lead">
+              I am a BSc (Hons) Computing graduate with hands-on experience
+              building and deploying full-stack web applications across
+              frontend, backend, APIs, authentication, databases, and real-time
+              features.
+            </p>
+            <p>
+              At PortMi, I worked in a small agile team and helped ship three
+              products for real organizations: Modaash MMS, Kumari Trust, and
+              StratBridge Partners.
+            </p>
+            <p>
+              I am interested in contributing to international engineering teams
+              and continuing to grow across modern web technologies.
+            </p>
+          </div>
+          <dl className="stats">
+            {STATS.map((s) => (
+              <div className="stat" key={s.label}>
+                <dt className="stat__val">{s.value}</dt>
+                <dd className="stat__label">{s.label}</dd>
               </div>
             ))}
-          </div>
-          <div>
-            <div className="stats-grid win">
-              <WinBar title="stats.sys" />
-              <div className="stats-grid__cells">
-                {STATS.map((s, i) => (
-                  <div className="stat-cell" key={i}>
-                    <span className="stat-val">{s.value}</span>
-                    <span className="stat-label">{s.label}</span>
-                  </div>
+          </dl>
+        </Shell>
+
+        {/* ── EXPERIENCE ── */}
+        <Shell
+          id="experience"
+          alt
+          title="Experience"
+          note="Where I've shipped things."
+        >
+          {EXPERIENCE.map((exp) => (
+            <article className="exp" key={exp.company}>
+              <div className="exp__top">
+                <div>
+                  <h3 className="exp__role">{exp.role}</h3>
+                  <p className="exp__co">
+                    {exp.company} · {exp.location}
+                  </p>
+                </div>
+                <div className="exp__side">
+                  <span className="exp__period">{exp.period}</span>
+                  <span className="exp__tag">{exp.tag}</span>
+                </div>
+              </div>
+              <p className="exp__desc">{exp.desc}</p>
+              <ul className="list">
+                {exp.bullets.map((b) => (
+                  <li key={b}>{b}</li>
                 ))}
-              </div>
-            </div>
-            <div className="about__bio win">
-              <WinBar title="about_me.txt" />
-              <div className="win__body about__bio-body">
-                <TextReveal text="I am a BSc (Hons) Computing graduate with hands-on experience building and deploying full-stack web applications across frontend, backend, APIs, authentication, databases, and real-time features." />
-                <TextReveal text="At PortMi, I worked in a small agile team and helped ship three products for real organizations: Modaash MMS, Kumari Trust, and StratBridge Partners." />
-                <TextReveal text="I am interested in contributing to international engineering teams and continuing to grow across modern web technologies." />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Recede>
+              </ul>
+              <h4 className="exp__sub">Deployed to production</h4>
+              <ul className="works">
+                {exp.works.map((w) => (
+                  <li key={w.link}>
+                    <a
+                      href={`https://${w.link}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="work"
+                    >
+                      <span className="work__main">
+                        <span className="work__title">{w.title}</span>
+                        <span className="work__stack">{w.stack}</span>
+                        <span className="work__story">{w.story}</span>
+                      </span>
+                      <span className="work__link">
+                        <span className="dot" /> {w.link} ↗
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </Shell>
 
-      {/* ── EXPERIENCE ── */}
-      <Recede className="section section--dark" id="experience">
-        <DarkSpotlight />
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="02" />
-          <span className="kicker kicker--dim">✦ Experience</span>
-          <SectionTitle className="sec-title--light">
-            Where I've
-            <br />
-            <em>shipped things.</em>
-          </SectionTitle>
-        </div>
-        <div className="exp-list">
-          {EXPERIENCE.map((exp, i) => (
-            <div
-              className="exp-item win win--dark"
-              key={i}
-              data-reveal
-              style={{ "--delay": `${i * 0.1}s` }}
-            >
-              <WinBar title={`${slug(exp.company)}_experience.exe`} />
-              <div className="win__body">
-                <div className="exp-item__head">
-                  <div className="exp-item__meta">
-                    <span className="exp-badge">{exp.tag}</span>
-                    <h3 className="exp-role">{exp.role}</h3>
-                    <span className="exp-co">
-                      {exp.company}
-                      {exp.location ? ` · ${exp.location}` : ""}
-                    </span>
+        {/* ── PROJECTS ── */}
+        <Shell
+          id="projects"
+          title="Projects"
+          note="Things I've built. Open any project for the feature list."
+        >
+          <div className="projects">
+            {PROJECTS.map((p) => (
+              <details className="project" key={p.title}>
+                <summary className="project__sum">
+                  <span className="project__head">
+                    <span className="project__title">{p.title}</span>
+                    <span className="project__type">{p.type}</span>
+                  </span>
+                  <span className="project__toggle" aria-hidden="true" />
+                </summary>
+                <div className="project__body">
+                  <p>{p.desc}</p>
+                  <div className="tags">
+                    {p.stack.map((s) => (
+                      <span key={s} className="tag">
+                        {s}
+                      </span>
+                    ))}
                   </div>
-                  {exp.period && (
-                    <span className="exp-period">{exp.period}</span>
-                  )}
+                  <ul className="list list--sm">
+                    {p.features.map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="exp-desc">{exp.desc}</p>
-                <ul className="exp-bullets">
-                  {exp.bullets.map((b, j) => (
-                    <li key={j}>{b}</li>
+              </details>
+            ))}
+          </div>
+        </Shell>
+
+        {/* ── SKILLS ── */}
+        <Shell id="skills" alt title="Skills" note="My toolkit.">
+          <div className="skills">
+            {Object.entries(SKILLS).map(([cat, items]) => (
+              <div className="skills__col" key={cat}>
+                <h3 className="skills__cat">{cat}</h3>
+                <ul>
+                  {items.map((s) => (
+                    <li key={s}>{s}</li>
                   ))}
                 </ul>
-                {exp.works && (
-                  <>
-                    <p className="exp-works-heading">✦ Projects Delivered</p>
-                    <div className="exp-works">
-                      {exp.works.map((w, idx) => (
-                        <a
-                          key={idx}
-                          href={`https://${w.link}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="exp-work-card win"
-                        >
-                          <WinBar title={w.link} />
-                          <div className="win__body">
-                            <div className="exp-work-card__top">
-                              <span className="exp-work-card__title">
-                                {w.title}
-                              </span>
-                              <span className="exp-work-card__arrow">↗</span>
-                            </div>
-                            <span className="exp-work-card__stack">
-                              {w.stack}
-                            </span>
-                            <p className="exp-work-card__story">{w.story}</p>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Recede>
-
-      {/* ── PROJECTS ── */}
-      <ProjectsSection />
-
-      {/* ── SKILLS ── */}
-      <Recede className="section section--cream" id="skills">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="04" />
-          <span className="kicker">✦ Skills</span>
-          <SectionTitle>
-            My
-            <br />
-            <em>toolkit.</em>
-          </SectionTitle>
-        </div>
-        <div className="skills-table win" data-reveal>
-          <WinBar title="control_panel.cpl" />
-          <div className="win__body">
-            {Object.entries(SKILLS).map(([cat, items]) => (
-              <div className="skills-row" key={cat}>
-                <span className="skills-cat">{cat}</span>
-                <div className="skills-pills">
-                  {items.map((s) => (
-                    <span className="skill-pill" key={s}>
-                      {s}
-                    </span>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
-        </div>
-      </Recede>
+        </Shell>
 
-      {/* ── EDUCATION ── */}
-      <Recede className="section" id="education">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="05" />
-          <span className="kicker">✦ Education</span>
-          <SectionTitle>
-            Formally
-            <br />
-            <em>trained.</em>
-          </SectionTitle>
-        </div>
-        <div className="edu-grid">
-          {EDUCATION.map((e, i) => (
-            <div
-              className="edu-card win"
-              key={i}
-              data-reveal
-              style={{ "--delay": `${i * 0.1}s`, "--edu-bg": e.color }}
-            >
-              <WinBar title={`education_0${i + 1}.edu`} />
-              <div className="win__body">
-                <h3 className="edu-degree">{e.degree}</h3>
-                <p className="edu-inst">{e.institution}</p>
-                <ul className="edu-details">
-                  {e.details.map((d, j) => (
-                    <li key={j}>{d}</li>
+        {/* ── EDUCATION ── */}
+        <Shell id="education" title="Education" note="Formally trained.">
+          <div className="edu">
+            {EDUCATION.map((e) => (
+              <article className="edu__item" key={e.degree}>
+                <h3 className="edu__degree">{e.degree}</h3>
+                <p className="edu__inst">{e.institution}</p>
+                <ul className="edu__details">
+                  {e.details.map((d) => (
+                    <li key={d}>{d}</li>
                   ))}
                 </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Recede>
+              </article>
+            ))}
+          </div>
+        </Shell>
 
-      {/* ── CERTIFICATIONS ── */}
-      <Recede className="section section--cream" id="certifications">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="06" />
-          <span className="kicker">✦ Certifications</span>
-          <SectionTitle>
-            Keeping the
-            <br />
-            <em>skills current.</em>
-          </SectionTitle>
-        </div>
-        <div className="cert-grid" data-reveal>
-          {CERTIFICATIONS.map((c, i) => (
+        {/* ── CERTIFICATIONS ── */}
+        <Shell
+          id="certifications"
+          alt
+          title="Certifications"
+          note="Keeping the skills current."
+        >
+          {CERTIFICATIONS.map((c) => (
             <button
-              className="cert-card win"
-              key={i}
-              data-cursor="hover"
-              style={{ "--cert-bg": c.color }}
+              className="cert"
+              key={c.title}
               onClick={() => setActiveCert(c)}
             >
-              <WinBar title="certificate.pdf" />
-              <div className="win__body">
-                <div className="cert-card__top">
-                  <span className="cert-badge">Verified</span>
-                  <span className="cert-date">{c.date}</span>
-                </div>
-                <h3 className="cert-title">{c.title}</h3>
-                <p className="cert-issuer">{c.issuer}</p>
-                <p className="cert-detail">{c.detail}</p>
-                <span className="cert-card__view">View certificate →</span>
-              </div>
+              <span className="cert__date">{c.date}</span>
+              <span className="cert__main">
+                <span className="cert__title">{c.title}</span>
+                <span className="cert__issuer">{c.issuer}</span>
+                <span className="cert__detail">{c.detail}</span>
+              </span>
+              <span className="cert__view">View certificate</span>
             </button>
           ))}
-        </div>
-      </Recede>
+        </Shell>
 
-      <CertModal cert={activeCert} onClose={closeCert} />
+        <CertModal cert={activeCert} onClose={closeCert} />
 
-      {/* ── INTERESTS ── */}
-      <Recede className="section section--lime" id="interests">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="07" />
-          <span className="kicker">✦ Interests</span>
-          <SectionTitle>
-            What I
-            <br />
-            <em>care about.</em>
-          </SectionTitle>
-        </div>
-        <div className="int-grid" data-reveal>
-          {INTERESTS.map((item, i) => (
-            <div className="int-card win" key={i}>
-              <WinBar title={`note_0${i + 1}.txt`} />
-              <div className="win__body">
-                <h3 className="int-card__heading">{item.heading}</h3>
-                <p className="int-card__body">{item.body}</p>
+        {/* ── INTERESTS ── */}
+        <Shell id="interests" title="Interests" note="What I care about.">
+          <div className="interests">
+            {INTERESTS.map((item) => (
+              <div className="interest" key={item.heading}>
+                <h3 className="interest__heading">{item.heading}</h3>
+                <p>{item.body}</p>
               </div>
-            </div>
-          ))}
-        </div>
-      </Recede>
+            ))}
+          </div>
+        </Shell>
 
-      {/* ── CONTACT ── */}
-      <section className="section" id="contact">
-        <div className="sec-head" data-reveal>
-          <ChapterNumber num="08" />
-          <span className="kicker">✦ Contact</span>
-        </div>
-        <div className="contact-grid">
-          <div className="contact-intro" data-reveal>
-            <h2 className="contact-title">
-              Let's build
-              <br />
-              <mark className="contact-mark">something useful.</mark>
-            </h2>
-            <div className="contact-copy win">
-              <WinBar title="a_quick_note.txt" />
-              <div className="win__body">
-                <TextReveal
-                  className="contact-sub"
-                  text="I'm interested in software development opportunities with teams building useful, reliable products. Based in Kathmandu, Nepal, and open to international opportunities."
-                />
-              </div>
-            </div>
-            <div className="contact-badges">
-              <span className="pill pill--black">Worldwide</span>
-              <span className="pill pill--outline">Remote OK</span>
-              <span className="pill pill--lime">
-                <span className="dot" /> Open to Opportunities
-              </span>
-            </div>
+        {/* ── CONTACT ── */}
+        <section className="contact" id="contact">
+          <div className="wrap">
+            <p className="contact__eyebrow">
+              Open to international and remote opportunities
+            </p>
+            <h2 className="contact__title">Let's build something useful.</h2>
+            <button className="contact__email" onClick={copyEmail}>
+              {copyMsg || "pbhattarai0129@gmail.com"}
+            </button>
+            <p className="contact__text">
+              I'm interested in software development opportunities with teams
+              building useful, reliable products. Click the address to copy it.
+            </p>
+            <ul className="contact__links">
+              <li>
+                <a href="tel:+9779823007520">+977 9823007520</a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Pramudita29"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  github.com/Pramudita29 ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://linkedin.com/in/pramudita-bhattarai"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  linkedin.com/in/pramudita-bhattarai ↗
+                </a>
+              </li>
+            </ul>
           </div>
-          <div className="contact-links win" data-reveal>
-            <WinBar title="contact_me.msg" />
-            <div className="win__body">
-              <button
-                className="contact-link"
-                onClick={copyEmail}
-                data-cursor="hover"
-              >
-                <span className="cl-label">Email</span>
-                <span className="cl-val">
-                  {copyMsg || "pbhattarai0129@gmail.com"}
-                </span>
-                <span className="cl-arr">→</span>
-              </button>
-              <a className="contact-link" href="tel:+9779823007520">
-                <span className="cl-label">Phone</span>
-                <span className="cl-val">+977 9823007520</span>
-                <span className="cl-arr">→</span>
-              </a>
-              <a
-                className="contact-link"
-                href="https://github.com/Pramudita29"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="cl-label">GitHub</span>
-                <span className="cl-val">github.com/Pramudita29</span>
-                <span className="cl-arr">→</span>
-              </a>
-              <a
-                className="contact-link"
-                href="https://linkedin.com/in/pramudita-bhattarai"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="cl-label">LinkedIn</span>
-                <span className="cl-val">pramudita-bhattarai</span>
-                <span className="cl-arr">→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       <footer className="footer">
-        <span>© 2026 Pramudita Bhattarai</span>
-        <button className="footer__top" onClick={toTop}>
-          Back to Top ↑
-        </button>
-        <span>
-          Software Developer · Kathmandu, Nepal · Open to International
-          Opportunities
-        </span>
+        <div className="wrap footer__inner">
+          <span>© 2026 Pramudita Bhattarai</span>
+          <span>Software Developer · Kathmandu, Nepal</span>
+          <a href="#hero" onClick={goTo("hero")}>
+            Back to top ↑
+          </a>
+        </div>
       </footer>
     </div>
   );
